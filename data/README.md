@@ -27,7 +27,8 @@ before it, by code in `src/`, so any layer can be rebuilt from `01_raw`.
 | Source | Used for | License | Retrieved | Notes |
 |--------|----------|---------|-----------|-------|
 | [Properati Colombia](https://www.kaggle.com/datasets/lauramartinezortiz/colombian-properties) (Kaggle mirror of Properati Data) | Listings (`operation = Alquiler`, Medellín) | Unknown on Kaggle; original license being verified | TODO | Downloaded manually from Kaggle; not committed |
-| [Límite Catastral de Comunas y Corregimientos](https://www.medellin.gov.co/geomedellin/datosAbiertos/1043) | Comuna boundaries | CC BY-SA 4.0 + "no puede ser comercializada o transferida" | TODO | Not committed; downloaded by code |
+| [Límite Catastral de Comunas y Corregimientos](https://www.medellin.gov.co/geomedellin/datosAbiertos/1043) | Comuna boundaries (21 polygons) | CC BY-SA 4.0 + "no puede ser comercializada o transferida" | `make geo` (date in `comunas.source.json`) | EPSG:9377, reprojected to EPSG:4326 on load; not committed |
+| [Límite Catastral de Barrios y Veredas](https://www.medellin.gov.co/geomedellin/datosAbiertos/1044) | Barrio boundaries + barrio → comuna (349 polygons) | CC BY-SA 4.0 + "no puede ser comercializada o transferida" | `make geo` (date in `barrios.source.json`) | EPSG:9377, reprojected to EPSG:4326 on load; not committed |
 | [Estrato Socioeconómico](https://www.medellin.gov.co/geomedellin/datosAbiertos/396) | Estrato by location | CC BY-SA 4.0 + "no puede ser comercializada o transferida" | TODO | Not committed; downloaded by code |
 
 ## Source survey (issue #7, checked 2026-10-05)

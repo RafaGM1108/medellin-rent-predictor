@@ -8,6 +8,7 @@ authors = [{ name = "Rafael García Montes" }]
 requires-python = ">=3.12,<3.13"
 dependencies = [
     "fastapi>=0.115",
+    "geopandas>=1.2.0",
     "pydantic>=2.9",
     "pyyaml>=6.0",
     "uvicorn[standard]>=0.32",
@@ -18,6 +19,7 @@ dev = [
     "bandit[toml]>=1.7",
     "httpx>=0.27",
     "mypy>=1.13",
+    "pandas-stubs>=3.0.5.260914",
     "pre-commit>=4.0",
     "pytest>=8.3",
     "pytest-cov>=6.0",
@@ -59,6 +61,10 @@ python_version = "3.12"
 strict = true
 files = ["src", "tests"]
 plugins = ["pydantic.mypy"]
+
+[[tool.mypy.overrides]]
+module = ["geopandas.*", "shapely.*", "pyogrio.*"]
+ignore_missing_imports = true
 
 # --- bandit -----------------------------------------------------------------
 [tool.bandit]

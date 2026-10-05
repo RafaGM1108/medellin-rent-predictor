@@ -122,6 +122,7 @@ make lint typecheck test     # check everything works
 
 | Command | What it does |
 |---------|--------------|
+| `make geo` | Download comuna and barrio boundaries into `data/01_raw/geo/` |
 | `make feature` / `make train` / `make infer` | Run the pipelines |
 | `make api` | FastAPI on http://localhost:8000 (docs at `/docs`) |
 | `make app` | Streamlit on http://localhost:8501 |

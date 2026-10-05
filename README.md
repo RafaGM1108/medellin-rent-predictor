@@ -1,59 +1,57 @@
-# TODO: Project title
+# Medellín Rent Predictor
 
 [![CI](https://github.com/RafaGM1108/medellin-rent-predictor/actions/workflows/ci.yml/badge.svg)](https://github.com/RafaGM1108/medellin-rent-predictor/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/RafaGM1108/medellin-rent-predictor/graph/badge.svg)](https://codecov.io/gh/RafaGM1108/medellin-rent-predictor)
 [![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-> TODO: one-sentence pitch: what problem this solves and for whom.
-
-## Using this template
-
-> Delete this section once the project is set up.
-
-1. On GitHub, click **Use this template → Create a new repository**, then clone it.
-2. Rename the placeholder package. Everything that needs renaming is spelled
-   `medellin_rent` (Python package), `medellin-rent-predictor` (distribution / repo name) or
-   `MEDELLIN_RENT` (environment variable prefix). On Linux:
-
-   ```bash
-   NEW=rent_predictor  # snake_case package name
-   git mv src/medellin_rent "src/$NEW"
-   grep -rlE 'medellin_rent|medellin-rent-predictor|MEDELLIN_RENT' --exclude-dir={.git,.venv} . \
-     | xargs sed -i "s/medellin_rent/$NEW/g; s/medellin-rent-predictor/${NEW//_/-}/g; s/MEDELLIN_RENT/${NEW^^}/g"
-   uv lock
-   make install
-   make lint typecheck test
-   ```
-
-   On macOS use `sed -i ''` instead of `sed -i`.
-3. Fill in every `TODO` (`grep -rn TODO .`), starting with this README and the
-   **Project** section of `CLAUDE.md`.
-4. Create the GitHub Project (Backlog, Ready, In Progress, In Review, Done, plus
-   **Priority** and **Size** fields), link it to the repo, and create one milestone per
-   roadmap phase.
-5. Add a `CODECOV_TOKEN` repository secret so coverage uploads work.
+> Is this rent fair? Predicting and explaining monthly apartment rents in Medellín, Colombia.
 
 ## Overview
 
-TODO: what the project does, in two or three sentences.
+This project predicts the monthly rent (COP) of an apartment in Medellín from its
+characteristics (comuna/barrio, estrato, area in m², rooms, bathrooms, parking, floor,
+building age and amenities) and explains which of them drive the price. The model is served
+through a FastAPI endpoint and a Streamlit app that answers one question: *is this listed
+rent fair?*
 
 ## Motivation
 
-TODO: why this problem matters and who benefits.
+I'm moving into an unfurnished apartment in Medellín and wanted to know whether listed rents
+are fair. Asking prices vary widely between comunas, estratos and buildings, and it is hard
+to tell from a few listings whether a price is reasonable. A model trained on many listings,
+with interpretable drivers, gives a reference price and the reasons behind it.
 
 ## Data
 
-TODO: sources, size, time span, license and how the data was collected. Full details are in
-[`data/README.md`](data/README.md).
+- **Rental listings.** Colombian real-estate portals are used **only** if their robots.txt
+  and terms of use allow it, with rate limiting and an identified user agent; otherwise a
+  public dataset of Medellín listings is used. No personal data is collected. The source
+  survey and the decision are tracked in
+  [#7](https://github.com/RafaGM1108/medellin-rent-predictor/issues/7).
+- **Geographic layers.** Comunas and barrios boundaries from Medellín's official open data
+  portal, used to map each listing to its comuna and to draw maps.
+
+Sources, licenses and retrieval dates are documented in [`data/README.md`](data/README.md).
+Data whose license forbids redistribution is not committed; only code and small samples are.
 
 ## Approach
 
-TODO: the method, from raw data to model to deployment.
+The project follows a feature / training / inference (FTI) pipeline architecture.
 
-1. TODO
-2. TODO
-3. TODO
+1. **Acquisition.** A scraper or loader in `src/` stores listings and boundaries unchanged in
+   `data/01_raw/`.
+2. **Cleaning and validation.** Listings are parsed, validated with pandera schemas, mapped
+   from barrio to comuna and cleaned of duplicates and outliers (`02_intermediate`,
+   `03_primary`).
+3. **Exploration and statistics.** Rent per m² by comuna and estrato, an interactive map and
+   hypothesis tests (e.g. the effect of parking and estrato on price).
+4. **Feature pipeline.** Reusable feature functions build `04_feature` and `05_model_input`.
+5. **Training pipeline.** A baseline (median by comuna), Ridge, Random Forest and LightGBM
+   are compared with k-fold cross-validation and tracked in MLflow; the best model is
+   interpreted with SHAP. Metrics and figures are saved to `08_reporting`.
+6. **Inference and serving.** An inference pipeline, a FastAPI `/predict` endpoint in a
+   Docker image, and a Streamlit app deployed on Streamlit Community Cloud.
 
 ## Results
 
@@ -139,17 +137,47 @@ docker run --rm -p 8000:8000 medellin-rent-predictor
 
 ## Roadmap
 
-| Phase | Milestone | Status |
-|-------|-----------|--------|
-| 1 | TODO: Phase 1 - Data collection | ⬜ |
-| 2 | TODO: Phase 2 - Exploration | ⬜ |
-| 3 | TODO: Phase 3 - Modelling | ⬜ |
-| 4 | TODO: Phase 4 - Deployment | ⬜ |
+| Phase | Milestone | Scope | Status |
+|-------|-----------|-------|--------|
+| 0 | [Phase 0 - Setup](https://github.com/RafaGM1108/medellin-rent-predictor/milestone/1) | Repo, issues, Kanban board, CI green | 🟡 In progress |
+| 1 | [Phase 1 - Data acquisition](https://github.com/RafaGM1108/medellin-rent-predictor/milestone/2) | Acquisition module (scraper or loader) with tests; raw data; source documentation | ⬜ |
+| 2 | [Phase 2 - Cleaning and validation](https://github.com/RafaGM1108/medellin-rent-predictor/milestone/3) | Pandera schemas, barrio → comuna mapping, outlier handling | ⬜ |
+| 3 | [Phase 3 - EDA and statistical analysis](https://github.com/RafaGM1108/medellin-rent-predictor/milestone/4) | Price per m² by comuna and estrato, interactive map, hypothesis tests | ⬜ |
+| 4 | [Phase 4 - Feature pipeline](https://github.com/RafaGM1108/medellin-rent-predictor/milestone/5) | Feature engineering and the feature pipeline | ⬜ |
+| 5 | [Phase 5 - Training](https://github.com/RafaGM1108/medellin-rent-predictor/milestone/6) | Baseline, Ridge, Random Forest, LightGBM; k-fold CV; MLflow; SHAP | ⬜ |
+| 6 | [Phase 6 - Inference and API](https://github.com/RafaGM1108/medellin-rent-predictor/milestone/7) | Inference pipeline, FastAPI endpoint, Docker image | ⬜ |
+| 7 | [Phase 7 - App and release](https://github.com/RafaGM1108/medellin-rent-predictor/milestone/8) | Streamlit app on Streamlit Community Cloud, README results, `v1.0.0` | ⬜ |
+
+## Project management
+
+Work is planned and tracked on a public Kanban board:
+**[medellin-rent-predictor · Kanban](https://github.com/users/RafaGM1108/projects/11)**.
+
+- **Columns:** Backlog → Ready → In Progress → In Review → Done, with at most 2 items
+  In Progress at a time.
+- **Milestones:** each roadmap phase is a milestone (`Phase N - <name>`) broken into small
+  issues of half a day to two days of work.
+- **Issues:** each has a description, an acceptance criteria checklist, a type label
+  (`type:feat`, `type:data`, `type:analysis`, `type:model`, `type:docs`, `type:test`,
+  `type:ci`, `type:bug`), a milestone, and **Priority** (High/Medium/Low) and **Size**
+  (S/M/L) fields on the board.
+- **Flow:** one issue → one branch (`<type>/<issue>-<slug>`) → one PR that says
+  `Closes #<issue>`. `main` is protected: PRs need the CI check to pass and are merged with a
+  merge commit, so every commit is kept. Work found along the way becomes a new Backlog issue.
+- **Changes** are recorded in [`CHANGELOG.md`](CHANGELOG.md); phases that ship a release are
+  tagged.
 
 ## Tech stack
 
-Python 3.12 · uv · pandas (TODO) · scikit-learn (TODO) · FastAPI · Streamlit · pytest ·
-ruff · mypy · bandit · pre-commit · GitHub Actions · Docker · MkDocs Material
+| Area | Tools |
+|------|-------|
+| Data | pandas, pandera, geopandas |
+| Modelling | scikit-learn, LightGBM, SHAP, MLflow |
+| Visualisation | plotly, folium |
+| Serving | FastAPI, Docker, Streamlit (Community Cloud) |
+| Engineering | Python 3.12, uv, ruff, mypy, bandit, pytest, pre-commit, GitHub Actions, Codecov, MkDocs Material |
+
+Libraries are added with `uv add` in the phase that first needs them.
 
 ## Author
 

@@ -68,22 +68,47 @@ from a file in [`data/08_reporting/`](data/08_reporting/).
 
 ```text
 ├── conf/base.yaml          # Paths and parameters
-├── data/                   # Layered data (01_raw … 08_reporting), see data/README.md
+├── data/
+│   ├── 01_raw/
+│   │   ├── listings/       # Rental listings as acquired (immutable)
+│   │   └── geo/            # Comunas/barrios boundaries from Medellín open data
+│   ├── 02_intermediate/ … 07_model_output/
+│   └── 08_reporting/       # Metrics (JSON/CSV) and figures (PNG) behind the Results
 ├── docs/                   # MkDocs Material site
 ├── notebooks/              # Numbered by stage (1-data … 8-reports), see notebooks/README.md
 ├── src/medellin_rent/
-│   ├── data/               # Loading and cleaning
+│   ├── data/               # Listings acquisition (scraper or loader) and cleaning
+│   ├── geo/                # Boundaries loading and barrio → comuna mapping
 │   ├── features/           # Feature engineering
 │   ├── model/              # Training and evaluation
 │   ├── inference/          # Prediction logic
 │   ├── pipelines/          # feature_pipeline, training_pipeline, inference_pipeline
 │   ├── api/                # FastAPI service
-│   ├── app/                # Streamlit app
+│   ├── app/                # Streamlit app ("Is this rent fair?")
 │   └── utils/              # Config loader and logging
 ├── tests/                  # Mirrors src/
 ├── Dockerfile              # Multi-stage image for the API
 └── Makefile                # Common commands (make help)
 ```
+
+### Adaptation from the template
+
+This repo was created from
+[ds-project-template](https://github.com/RafaGM1108/ds-project-template). The layout was
+adapted to the two kinds of data this project combines:
+
+- **`data/01_raw/` is split into `listings/` and `geo/`.** Listings and geographic
+  boundaries come from different sources, with different licenses, formats and refresh
+  cycles, so each keeps its own raw folder. Both are set in `conf/base.yaml`
+  (`paths.raw_listings`, `paths.raw_geo`).
+- **New `src/medellin_rent/geo/` module** (tested in `tests/geo/`). Loading the official
+  comunas/barrios boundaries and mapping each listing's barrio to its comuna is spatial
+  logic used by both the cleaning stage and the app, so it lives apart from `data/`.
+- **`src/medellin_rent/data/`** holds the listings acquisition module (scraper or loader,
+  decided in Phase 1 after checking robots.txt and terms of use) and the cleaning code.
+
+Everything else follows the template: the layered data folders, staged notebooks and FTI
+pipelines.
 
 ## Quickstart
 

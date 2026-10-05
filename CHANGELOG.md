@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Data source survey: robots.txt and terms of use of five portals, public datasets and Medellín open data layers; decision not to scrape (#7).
 - Initial project template: layered data folders, staged notebooks, `medellin_rent` package
   with feature/training/inference pipelines, FastAPI service and Streamlit app.
 - Typed configuration loader for `conf/base.yaml` and shared logging setup.

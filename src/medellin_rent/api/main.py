@@ -3,9 +3,9 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 
-from ds_project import __version__
+from medellin_rent import __version__
 
-app = FastAPI(title="ds-project API", version=__version__)
+app = FastAPI(title="medellin-rent-predictor API", version=__version__)
 
 
 class Health(BaseModel):
@@ -21,4 +21,4 @@ def health() -> Health:
     return Health(status="ok", version=__version__)
 
 
-# TODO: add a /predict endpoint that uses ds_project.inference.
+# TODO: add a /predict endpoint that uses medellin_rent.inference.

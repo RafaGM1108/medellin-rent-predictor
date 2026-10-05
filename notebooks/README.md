@@ -1,6 +1,6 @@
 # Notebooks
 
-Notebooks are for exploration and narrative. Reusable logic belongs in `src/ds_project`
+Notebooks are for exploration and narrative. Reusable logic belongs in `src/medellin_rent`
 and is imported here.
 
 | Folder | Stage |
@@ -19,6 +19,6 @@ and is imported here.
 - Start from `_template.ipynb`.
 - Name files `<stage>.<seq>-<initials>-<short-description>.ipynb`, for example
   `2.01-rgm-target-distribution.ipynb`.
-- Load paths with `from ds_project.utils.config import get_config`, never with hard-coded paths.
+- Load paths with `from medellin_rent.utils.config import get_config`, never with hard-coded paths.
 - Save figures and metrics for reports to `data/08_reporting/`.
 - Restart the kernel and run all cells before committing.

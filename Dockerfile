@@ -26,4 +26,4 @@ COPY --chown=app:app conf ./conf
 ENV PATH="/app/.venv/bin:$PATH" PYTHONUNBUFFERED=1
 USER app
 EXPOSE 8000
-CMD ["uvicorn", "ds_project.api.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "medellin_rent.api.main:app", "--host", "0.0.0.0", "--port", "8000"]

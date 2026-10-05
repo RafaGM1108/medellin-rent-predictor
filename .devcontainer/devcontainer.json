@@ -1,5 +1,5 @@
 {
-  "name": "ds-project",
+  "name": "medellin-rent-predictor",
   "image": "mcr.microsoft.com/devcontainers/python:3.12",
   "postCreateCommand": "pip install --user uv && uv sync && uv run pre-commit install",
   "forwardPorts": [8000, 8501],

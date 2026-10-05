@@ -1,4 +1,4 @@
-PACKAGE := ds_project
+PACKAGE := medellin_rent
 
 .PHONY: help install lint typecheck test coverage feature train infer app api docs clean
 

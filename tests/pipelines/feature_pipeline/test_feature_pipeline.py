@@ -1,4 +1,4 @@
-from ds_project.pipelines.feature_pipeline.pipeline import run
+from medellin_rent.pipelines.feature_pipeline.pipeline import run
 
 
 def test_run_smoke() -> None:

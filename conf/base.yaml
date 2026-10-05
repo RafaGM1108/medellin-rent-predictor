@@ -1,7 +1,7 @@
 # Project configuration. Paths are relative to the project root.
-# Override the file location with the DS_PROJECT_CONF environment variable.
+# Override the file location with the MEDELLIN_RENT_CONF environment variable.
 project:
-  name: ds-project
+  name: medellin-rent-predictor
   random_seed: 42
 
 paths:

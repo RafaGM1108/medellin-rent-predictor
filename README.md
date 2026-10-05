@@ -1,7 +1,7 @@
 # TODO: Project title
 
-[![CI](https://github.com/RafaGM1108/ds-project/actions/workflows/ci.yml/badge.svg)](https://github.com/RafaGM1108/ds-project/actions/workflows/ci.yml)
-[![codecov](https://codecov.io/gh/RafaGM1108/ds-project/graph/badge.svg)](https://codecov.io/gh/RafaGM1108/ds-project)
+[![CI](https://github.com/RafaGM1108/medellin-rent-predictor/actions/workflows/ci.yml/badge.svg)](https://github.com/RafaGM1108/medellin-rent-predictor/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/RafaGM1108/medellin-rent-predictor/graph/badge.svg)](https://codecov.io/gh/RafaGM1108/medellin-rent-predictor)
 [![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
@@ -13,14 +13,14 @@
 
 1. On GitHub, click **Use this template → Create a new repository**, then clone it.
 2. Rename the placeholder package. Everything that needs renaming is spelled
-   `ds_project` (Python package), `ds-project` (distribution / repo name) or
-   `DS_PROJECT` (environment variable prefix). On Linux:
+   `medellin_rent` (Python package), `medellin-rent-predictor` (distribution / repo name) or
+   `MEDELLIN_RENT` (environment variable prefix). On Linux:
 
    ```bash
    NEW=rent_predictor  # snake_case package name
-   git mv src/ds_project "src/$NEW"
-   grep -rlE 'ds_project|ds-project|DS_PROJECT' --exclude-dir={.git,.venv} . \
-     | xargs sed -i "s/ds_project/$NEW/g; s/ds-project/${NEW//_/-}/g; s/DS_PROJECT/${NEW^^}/g"
+   git mv src/medellin_rent "src/$NEW"
+   grep -rlE 'medellin_rent|medellin-rent-predictor|MEDELLIN_RENT' --exclude-dir={.git,.venv} . \
+     | xargs sed -i "s/medellin_rent/$NEW/g; s/medellin-rent-predictor/${NEW//_/-}/g; s/MEDELLIN_RENT/${NEW^^}/g"
    uv lock
    make install
    make lint typecheck test
@@ -71,7 +71,7 @@ from a file in [`data/08_reporting/`](data/08_reporting/).
 ├── data/                   # Layered data (01_raw … 08_reporting), see data/README.md
 ├── docs/                   # MkDocs Material site
 ├── notebooks/              # Numbered by stage (1-data … 8-reports), see notebooks/README.md
-├── src/ds_project/
+├── src/medellin_rent/
 │   ├── data/               # Loading and cleaning
 │   ├── features/           # Feature engineering
 │   ├── model/              # Training and evaluation
@@ -90,8 +90,8 @@ from a file in [`data/08_reporting/`](data/08_reporting/).
 Requires [uv](https://docs.astral.sh/uv/) and `make`.
 
 ```bash
-git clone https://github.com/RafaGM1108/ds-project.git
-cd ds-project
+git clone https://github.com/RafaGM1108/medellin-rent-predictor.git
+cd medellin-rent-predictor
 make install                 # dependencies + pre-commit hooks
 cp .env.example .env         # then fill in secrets, if any
 make lint typecheck test     # check everything works
@@ -108,8 +108,8 @@ make lint typecheck test     # check everything works
 Docker (API):
 
 ```bash
-docker build -t ds-project .
-docker run --rm -p 8000:8000 ds-project
+docker build -t medellin-rent-predictor .
+docker run --rm -p 8000:8000 medellin-rent-predictor
 ```
 
 ## Roadmap

@@ -8,7 +8,7 @@ from typing import Any
 import yaml
 from pydantic import BaseModel, ConfigDict
 
-CONF_ENV_VAR = "DS_PROJECT_CONF"
+CONF_ENV_VAR = "MEDELLIN_RENT_CONF"
 CONF_RELATIVE_PATH = Path("conf/base.yaml")
 
 
@@ -58,7 +58,7 @@ class Config(BaseModel):
 def find_config_file(start: Path | None = None) -> Path:
     """Locate the config file.
 
-    Uses ``$DS_PROJECT_CONF`` if set; otherwise walks up from ``start`` (default: the
+    Uses ``$MEDELLIN_RENT_CONF`` if set; otherwise walks up from ``start`` (default: the
     current directory) until it finds ``conf/base.yaml``. This works from the project
     root, from ``notebooks/<stage>/`` and inside the Docker image.
 

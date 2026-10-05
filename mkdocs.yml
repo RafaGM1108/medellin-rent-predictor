@@ -1,5 +1,5 @@
-site_name: medellin-rent-predictor
-site_description: TODO
+site_name: Medellín Rent Predictor
+site_description: Predicting and explaining monthly apartment rents in Medellín, Colombia.
 site_author: Rafael García Montes
 repo_url: https://github.com/RafaGM1108/medellin-rent-predictor
 theme:

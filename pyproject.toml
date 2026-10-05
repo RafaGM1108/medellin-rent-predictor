@@ -1,7 +1,7 @@
 [project]
 name = "medellin-rent-predictor"
 version = "0.1.0"
-description = "TODO: one-line description of the project."
+description = "Predicting and explaining monthly apartment rents in Medellín, Colombia."
 readme = "README.md"
 license = "MIT"
 authors = [{ name = "Rafael García Montes" }]

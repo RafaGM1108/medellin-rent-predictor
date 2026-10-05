@@ -1,1 +1,1 @@
-"""Data loading and cleaning (raw -> intermediate -> primary)."""
+"""Data acquisition (scraper or loader) and cleaning: raw -> intermediate -> primary."""

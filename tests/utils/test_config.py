@@ -10,6 +10,7 @@ ROOT = Path(__file__).resolve().parents[2]
 def test_load_config_resolves_paths_against_project_root() -> None:
     config = load_config(ROOT / "conf" / "base.yaml")
     assert config.paths.raw == ROOT / "data" / "01_raw"
+    assert config.paths.raw_geo == ROOT / "data" / "01_raw" / "geo"
     assert config.paths.reporting == ROOT / "data" / "08_reporting"
     assert config.project.random_seed == 42
 

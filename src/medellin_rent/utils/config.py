@@ -27,6 +27,8 @@ class PathsConfig(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     raw: Path
+    raw_listings: Path
+    raw_geo: Path
     intermediate: Path
     primary: Path
     feature: Path

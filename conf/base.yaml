@@ -6,6 +6,8 @@ project:
 
 paths:
   raw: data/01_raw
+  raw_listings: data/01_raw/listings
+  raw_geo: data/01_raw/geo
   intermediate: data/02_intermediate
   primary: data/03_primary
   feature: data/04_feature

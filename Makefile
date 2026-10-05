@@ -1,6 +1,6 @@
 PACKAGE := medellin_rent
 
-.PHONY: help install lint typecheck test coverage feature train infer app api docs clean
+.PHONY: help install lint typecheck test coverage geo feature train infer app api docs clean
 
 help:  ## Show this help
 	@grep -E '^[a-z]+:.*## ' $(MAKEFILE_LIST) | awk -F':.*## ' '{printf "  %-10s %s\n", $$1, $$2}'
@@ -22,6 +22,9 @@ test:  ## Run the test suite
 
 coverage:  ## Run tests with a coverage report (terminal + htmlcov/)
 	uv run pytest --cov --cov-report=term --cov-report=html
+
+geo:  ## Download comuna and barrio boundaries into data/01_raw/geo
+	uv run python -m $(PACKAGE).geo
 
 feature:  ## Run the feature pipeline
 	uv run python -m $(PACKAGE).pipelines.feature_pipeline

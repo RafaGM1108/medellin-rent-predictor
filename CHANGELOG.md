@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Filled the Project section of `CLAUDE.md` with the spec and roadmap; renamed the workflow conventions to "Kanban workflow" (#3).
 - Renamed the placeholder package `ds_project` to `medellin_rent` (#2).
 
 ### Added

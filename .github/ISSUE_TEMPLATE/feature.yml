@@ -1,6 +1,6 @@
 name: Feature / task
 description: A unit of work (half a day to two days).
-labels: [feat]
+labels: [type:feat]
 body:
   - type: textarea
     id: goal

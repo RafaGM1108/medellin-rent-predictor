@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: read
+  id-token: write  # OIDC authentication for Codecov (no token secret needed)
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -36,5 +37,5 @@ jobs:
         uses: codecov/codecov-action@v7
         with:
           files: coverage.xml
-          token: ${{ secrets.CODECOV_TOKEN }}
-          fail_ci_if_error: false
+          use_oidc: true
+          fail_ci_if_error: true

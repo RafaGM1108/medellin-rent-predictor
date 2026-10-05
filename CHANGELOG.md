@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Codecov uploads authenticate with OIDC instead of a token secret and fail the CI on error; added `codecov.yml` with 80% project and patch targets (#6).
 - Filled the README (overview, motivation, data, approach, roadmap, tech stack) and added a Project management section; removed the template setup section (#5).
 - Split `data/01_raw` into `listings/` and `geo/`, added the `geo` module and documented the adaptation in the README (#4).
 - Filled the Project section of `CLAUDE.md` with the spec and roadmap; renamed the workflow conventions to "Kanban workflow" (#3).

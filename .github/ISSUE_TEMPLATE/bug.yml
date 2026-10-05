@@ -1,6 +1,6 @@
 name: Bug
 description: Something is broken or produces wrong results.
-labels: [fix]
+labels: [type:bug]
 body:
   - type: textarea
     id: what

@@ -5,7 +5,7 @@ before it, by code in `src/`, so any layer can be rebuilt from `01_raw`.
 
 | Layer | Contents | Written by |
 |-------|----------|------------|
-| `01_raw` | Data exactly as received or scraped. **Immutable: never edit, overwrite or clean in place.** | Ingestion code / manual download |
+| `01_raw` | Data exactly as received or scraped, in `listings/` (rental listings) and `geo/` (comunas/barrios boundaries). **Immutable: never edit, overwrite or clean in place.** | `medellin_rent.data`, `medellin_rent.geo` |
 | `02_intermediate` | Raw data parsed into a typed, consistent format (e.g. Parquet), with no business logic. | `medellin_rent.data` |
 | `03_primary` | Cleaned, validated, domain-level tables (one row = one entity). | `medellin_rent.data` |
 | `04_feature` | Engineered features, keyed by entity. | `medellin_rent.features` |

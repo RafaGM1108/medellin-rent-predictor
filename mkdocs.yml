@@ -1,7 +1,7 @@
-site_name: ds-project
+site_name: medellin-rent-predictor
 site_description: TODO
 site_author: Rafael García Montes
-repo_url: https://github.com/RafaGM1108/ds-project
+repo_url: https://github.com/RafaGM1108/medellin-rent-predictor
 theme:
   name: material
   features:

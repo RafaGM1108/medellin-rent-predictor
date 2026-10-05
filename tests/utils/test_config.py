@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pytest
 
-from ds_project.utils.config import CONF_ENV_VAR, find_config_file, load_config
+from medellin_rent.utils.config import CONF_ENV_VAR, find_config_file, load_config
 
 ROOT = Path(__file__).resolve().parents[2]
 

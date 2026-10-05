@@ -7,9 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Renamed the placeholder package `ds_project` to `medellin_rent` (#2).
+
 ### Added
 
-- Initial project template: layered data folders, staged notebooks, `ds_project` package
+- Initial project template: layered data folders, staged notebooks, `medellin_rent` package
   with feature/training/inference pipelines, FastAPI service and Streamlit app.
 - Typed configuration loader for `conf/base.yaml` and shared logging setup.
 - Tooling: uv, ruff, mypy, bandit, pytest + coverage, pre-commit, Makefile.

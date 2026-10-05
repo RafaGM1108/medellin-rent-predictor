@@ -2,7 +2,7 @@
 
 import streamlit as st
 
-from ds_project.utils.config import get_config
+from medellin_rent.utils.config import get_config
 
 config = get_config()
 

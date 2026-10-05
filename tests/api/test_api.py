@@ -1,7 +1,7 @@
 from fastapi.testclient import TestClient
 
-from ds_project import __version__
-from ds_project.api.main import app
+from medellin_rent import __version__
+from medellin_rent.api.main import app
 
 
 def test_health() -> None:

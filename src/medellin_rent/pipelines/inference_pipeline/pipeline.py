@@ -1,7 +1,7 @@
 """Inference pipeline: trained model + new data -> predictions."""
 
-from ds_project.utils.config import Config, get_config
-from ds_project.utils.log import get_logger
+from medellin_rent.utils.config import Config, get_config
+from medellin_rent.utils.log import get_logger
 
 
 def run(config: Config | None = None) -> None:
@@ -13,5 +13,5 @@ def run(config: Config | None = None) -> None:
     config = config or get_config()
     logger = get_logger(__name__, config.logging.level)
     logger.info("Reading from %s", config.paths.models)
-    # TODO: implement the inference pipeline steps using functions from ds_project.
+    # TODO: implement the inference pipeline steps using functions from medellin_rent.
     logger.info("Writing to %s", config.paths.model_output)

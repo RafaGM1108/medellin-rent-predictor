@@ -26,7 +26,7 @@ before it, by code in `src/`, so any layer can be rebuilt from `01_raw`.
 
 | Source | Used for | License | Retrieved | Notes |
 |--------|----------|---------|-----------|-------|
-| TODO: listings source (pending decision, see survey below) | Listings | TODO | TODO | TODO |
+| [Properati Colombia](https://www.kaggle.com/datasets/lauramartinezortiz/colombian-properties) (Kaggle mirror of Properati Data) | Listings (`operation = Alquiler`, Medellín) | Unknown on Kaggle; original license being verified | TODO | Downloaded manually from Kaggle; not committed |
 | [Límite Catastral de Comunas y Corregimientos](https://www.medellin.gov.co/geomedellin/datosAbiertos/1043) | Comuna boundaries | CC BY-SA 4.0 + "no puede ser comercializada o transferida" | TODO | Not committed; downloaded by code |
 | [Estrato Socioeconómico](https://www.medellin.gov.co/geomedellin/datosAbiertos/396) | Estrato by location | CC BY-SA 4.0 + "no puede ser comercializada o transferida" | TODO | Not committed; downloaded by code |
 
@@ -64,6 +64,16 @@ permission. Phase 1 therefore builds a **loader for a public dataset** (issue #8
   any listing with coordinates even if the listing does not state it.
 - Both are CC BY-SA 4.0 with the extra condition that the data "no puede ser comercializada o
   transferida", so they are downloaded by code and **never committed**; outputs cite the
+  Alcaldía de Medellín.
+
+### Decisions (2026-10-05)
+
+- **Listings:** Properati Colombia, downloaded manually from Kaggle into
+  `data/01_raw/listings/`. Until its license is confirmed, the raw data and anything derived
+  row by row from it are **not committed**; only code and aggregated outputs in
+  `08_reporting` are.
+- **Geo layers:** used for this public, non-commercial portfolio project. The files are
+  never redistributed: they are downloaded by code and git-ignored; outputs credit the
   Alcaldía de Medellín.
 
 ### Open points

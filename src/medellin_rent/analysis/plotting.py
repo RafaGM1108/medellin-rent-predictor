@@ -20,6 +20,9 @@ TEXT_PRIMARY = "#0b0b0b"
 TEXT_SECONDARY = "#52514e"
 GRID = "#e4e3df"
 SERIES = "#2a78d6"
+# Sequential blue ramp, steps 100 -> 700; grey for cells/areas without enough data.
+BLUES = ["#cde2fb", "#9ec5f4", "#6da7ec", "#3987e5", "#256abf", "#184f95", "#0d366b"]
+NO_DATA = "#f0efec"
 
 
 def new_figure(title: str, width: float = 7.0, height: float = 4.0) -> tuple[Figure, Axes]:

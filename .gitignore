@@ -7,6 +7,8 @@ data/**
 !data/**/*_sample.*
 # Reporting outputs that back README numbers/figures are committed
 !data/08_reporting/**
+# Interactive maps embed GeoMedellín polygons, which may not be redistributed
+data/08_reporting/*.html
 
 # --- Models & experiment tracking -------------------------------------------
 *.pkl

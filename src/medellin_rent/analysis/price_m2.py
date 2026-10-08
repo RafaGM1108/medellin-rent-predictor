@@ -19,7 +19,9 @@ from matplotlib.ticker import FuncFormatter
 
 from medellin_rent.analysis.eda import with_rent_per_m2
 from medellin_rent.analysis.plotting import (
+    BLUES,
     GRID,
+    NO_DATA,
     SERIES,
     SURFACE,
     TEXT_PRIMARY,
@@ -30,9 +32,6 @@ from medellin_rent.analysis.plotting import (
 )
 
 MIN_N = 30
-# Sequential blue ramp of the data-viz reference palette, steps 100 -> 700.
-_BLUES = ["#cde2fb", "#9ec5f4", "#6da7ec", "#3987e5", "#256abf", "#184f95", "#0d366b"]
-_EMPTY_CELL = "#f0efec"
 
 
 def _thousands(value: float, _: object = None) -> str:
@@ -164,8 +163,8 @@ def plot_comuna_estrato(table: pd.DataFrame, comunas: list[str], path: Path) -> 
     values = grid.where(counts >= MIN_N)
 
     fig, ax = new_figure("Median rent per m² by comuna and estrato", width=7.5, height=6.0)
-    ax.set_facecolor(_EMPTY_CELL)
-    cmap = LinearSegmentedColormap.from_list("blues", _BLUES)
+    ax.set_facecolor(NO_DATA)
+    cmap = LinearSegmentedColormap.from_list("blues", BLUES)
     finite = values.to_numpy(dtype=float)
     vmin, vmax = np.nanmin(finite), np.nanmax(finite)
     ax.imshow(np.ma.masked_invalid(finite), cmap=cmap, vmin=vmin, vmax=vmax, aspect="auto")

@@ -1,0 +1,13 @@
+field,share_present
+rent_cop,1.0000
+bathrooms,0.9583
+bedrooms,0.8803
+comuna_code,0.8090
+estrato,0.7922
+lat,0.7901
+barrio_name,0.7754
+has_parking,0.5788
+area_m2,0.3450
+floor,0.0573
+parking_spots,0.0471
+building_age_years,0.0002

@@ -39,3 +39,26 @@ def synthetic_model_input(n: int = 200, seed: int = 0) -> pd.DataFrame:
 @pytest.fixture
 def model_input() -> pd.DataFrame:
     return synthetic_model_input()
+
+
+@pytest.fixture
+def saved_model(tmp_path, model_input: pd.DataFrame):  # type: ignore[no-untyped-def]
+    """A small LightGBM model and metadata saved like the training pipeline does."""
+    import json
+
+    import joblib
+
+    from medellin_rent.features.build import FEATURES
+    from medellin_rent.model.gradient_boosting import make_lightgbm
+
+    params = {"num_leaves": 7, "learning_rate": 0.1, "n_estimators": 50, "min_child_samples": 5}
+    model = make_lightgbm(params, seed=0).fit(model_input[FEATURES], model_input[LOG_TARGET])
+    models_dir = tmp_path / "models"
+    models_dir.mkdir()
+    joblib.dump(model, models_dir / "model.joblib")
+    metadata = {
+        "model": "lightgbm",
+        "interval": {"level": 0.8, "low_factor": 0.8, "high_factor": 1.25},
+    }
+    (models_dir / "model_metadata.json").write_text(json.dumps(metadata))
+    return models_dir

@@ -29,6 +29,7 @@ class PathsConfig(BaseModel):
     raw: Path
     raw_listings: Path
     raw_geo: Path
+    new_listings: Path
     intermediate: Path
     primary: Path
     feature: Path

@@ -89,3 +89,30 @@ def test_api_and_batch_inference_agree(saved_model: Path) -> None:
     model, metadata = load_model(saved_model)
     batch = predict(model, metadata, pd.DataFrame([LISTING]))["predicted_rent_cop"].iloc[0]
     assert client.post("/predict", json=LISTING).json()["predicted_rent_cop"] == batch
+
+
+def _config_with_models(models_dir: Path):  # type: ignore[no-untyped-def]
+    from medellin_rent.utils.config import load_config
+
+    root = Path(__file__).resolve().parents[2]
+    config = load_config(root / "conf" / "base.yaml")
+    return config.model_copy(
+        update={"paths": config.paths.model_copy(update={"models": models_dir})}
+    )
+
+
+def test_startup_loads_the_model(saved_model: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr(
+        "medellin_rent.api.main.get_config", lambda: _config_with_models(saved_model)
+    )
+    with TestClient(app) as started:
+        assert started.post("/predict", json=LISTING).status_code == 200
+
+
+def test_startup_without_a_model_keeps_health(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setattr("medellin_rent.api.main.get_config", lambda: _config_with_models(tmp_path))
+    with TestClient(app) as started:
+        assert started.get("/health").status_code == 200
+        assert started.post("/predict", json=LISTING).status_code == 503

@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- API startup tests: the model is loaded in the lifespan, and without it `/health` works while `/predict` answers 503 (#34).
 - `POST /predict`: pydantic request (official comuna names, optional fields with ranges and descriptions), predicted rent with the 80% interval and the price period; model loaded at startup, 503 when missing; batch inference also accepts CSVs with only the comuna (#33).
 - `medellin_rent.inference.predict` and `make infer`: new listings in a user-facing format (comuna by official name, validated with pandera) priced with the saved model and an 80% interval from test-set residuals (stored in the model metadata); predictions in `07_model_output/predictions.csv`; synthetic `new_listings_sample.csv` (#32).
 - End-to-end training test on synthetic data with every model and LightGBM tuning, checking the schemas of `model_comparison.json`, `test_metrics.json`, `lightgbm_tuning.csv` and the model metadata (#31).

@@ -198,6 +198,11 @@ Only `comuna` is required (official name, see `/docs`); the response has the pre
 monthly rent in COP at current prices (`prices_as_of`, adjusted with DANE's rent CPI), an
 80% interval, the adjustment applied and the prediction at 2020-2021 prices.
 
+Online app (Streamlit Community Cloud): the trained model is not in git, so the app
+downloads `model.joblib` and `model_metadata.json` from the GitHub release set in
+`params.model_release_url` the first time it starts. Dependencies come from
+`requirements.txt`, exported from `uv.lock` (a pre-commit hook keeps it in sync).
+
 Docker (API):
 
 ```bash

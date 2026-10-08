@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Deployment support for Streamlit Community Cloud: the app downloads the model from the GitHub release in `params.model_release_url` when it is not on disk (`download_model`, atomic writes, GitHub-only URLs); `requirements.txt` exported from `uv.lock` with a pre-commit hook keeping it in sync (#37).
 - README Results: model comparison, test metrics with the 80% interval, SHAP drivers and limitations, all from `data/08_reporting/` (#38).
 - Streamlit app "Is this rent fair?": form with the model's inputs and the listed rent, estimate at current prices with the 80% range, verdict (good deal / fair / expensive) and the main drivers of that listing's estimate from SHAP; logic in `medellin_rent.app.logic` (#36).
 - Predictions at current prices: `medellin_rent.data.prices` and `make prices` read DANE's CPI for effective rent (subclass 04130100) for the data's last month and a configurable current month into `conf/rent_index.json`; `make infer` adds `_current` columns and the API returns current prices with the adjustment, `prices_as_of` and the data-period prediction; `openpyxl` dependency (#67).

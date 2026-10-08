@@ -15,6 +15,7 @@ every amount is also given at current prices (columns ending in ``_current``).
 import json
 from pathlib import Path
 from typing import Any
+from urllib.request import Request, urlopen
 
 import joblib
 import numpy as np
@@ -28,6 +29,7 @@ from medellin_rent.features.build import (
     UNKNOWN,
     build_features,
 )
+from medellin_rent.geo.boundaries import USER_AGENT
 from medellin_rent.model.evaluate import predict_rent
 
 PRICE_REFERENCE_DATE = pd.Timestamp("2021-08-19")  # last listing date in the training data
@@ -87,6 +89,35 @@ def to_features(listings: pd.DataFrame) -> pd.DataFrame:
         }
     )
     return build_features(primary_like)
+
+
+MODEL_FILES = ["model.joblib", "model_metadata.json"]
+
+
+def download_model(models_dir: Path, release_url: str, timeout: float = 120) -> None:
+    """Download the model files from a GitHub release into ``models_dir`` if missing.
+
+    Used where the model cannot be trained (e.g. Streamlit Community Cloud): the trained
+    model is not in git, it is attached to the release instead.
+
+    Args:
+        models_dir: Target directory, usually ``paths.models``.
+        release_url: ``https://github.com/<owner>/<repo>/releases/download/<tag>``.
+        timeout: Request timeout in seconds per file.
+    """
+    if not release_url.startswith("https://github.com/"):
+        raise ValueError(f"Model release URL must be a GitHub https URL: {release_url}")
+    models_dir.mkdir(parents=True, exist_ok=True)
+    for name in MODEL_FILES:
+        path = models_dir / name
+        if path.is_file():
+            continue
+        request = Request(f"{release_url}/{name}", headers={"User-Agent": USER_AGENT})
+        # The URL is checked above to be a GitHub https release URL from the config.
+        with urlopen(request, timeout=timeout) as response:  # nosec B310
+            partial = path.with_name(path.name + ".part")
+            partial.write_bytes(response.read())
+        partial.replace(path)  # never leave a half-written model behind
 
 
 def load_model(models_dir: Path) -> tuple[Any, dict[str, Any]]:

@@ -50,7 +50,7 @@ COLUMNS = [
 ]
 TEXT_COLUMNS = ["title", "description"]
 
-# ponytail: catches emails and Colombian mobile numbers (3xx xxx xxxx, optional +57); landlines
+# Limit: catches emails and Colombian mobile numbers (3xx xxx xxxx, optional +57); landlines
 # are not matched because 7-digit runs collide with prices. Extend if audits find leaks.
 _EMAIL = re.compile(r"[\w.+-]+@[\w-]+(?:\.[\w-]+)+")
 _MOBILE = re.compile(r"(?<!\d)(?:\+?57[\s.-]?)?3\d{2}[\s.-]?\d{3}[\s.-]?\d{4}(?!\d)")

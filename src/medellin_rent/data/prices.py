@@ -49,7 +49,8 @@ def annex_url(month: str) -> str:
     """
     year, number = int(month[:4]), int(month[5:7])
     tag = _MONTHS[number - 1]
-    # ponytail: old pattern checked for 2021 and new one for 2024-2026; 2022-2023 unverified.
+    # Limit: old pattern checked for 2021, new one for 2024-2026; revisit if a month in
+    # 2022-2023 is configured (the cut-off year may be wrong).
     if year <= 2023:
         return (
             "https://www.dane.gov.co/files/investigaciones/boletines/ipc/"

@@ -39,7 +39,9 @@ def test_predict_returns_rent_and_interval() -> None:
     assert body["interval_low_cop"] < body["predicted_rent_cop"] < body["interval_high_cop"]
     assert body["interval_level"] == 0.8
     assert body["model"] == "lightgbm"
-    assert "2020" in body["prices"]
+    assert body["prices_as_of"] == "2021-08"  # no rent index in this test
+    assert body["adjustment"] is None
+    assert body["data_period_rent_cop"] == body["predicted_rent_cop"]
 
 
 @pytest.mark.usefixtures("with_model")
@@ -116,3 +118,22 @@ def test_startup_without_a_model_keeps_health(
     with TestClient(app) as started:
         assert started.get("/health").status_code == 200
         assert started.post("/predict", json=LISTING).status_code == 503
+
+
+@pytest.mark.usefixtures("with_model")
+def test_predict_at_current_prices_with_a_rent_index() -> None:
+    from medellin_rent.api.main import get_rent_index
+
+    index = {
+        "index": "IPC arriendo efectivo",
+        "base_month": "2021-08",
+        "current_month": "2026-09",
+        "factor": 1.5,
+        "citation": "Fuente: DANE",
+    }
+    app.dependency_overrides[get_rent_index] = lambda: index
+    body = client.post("/predict", json=LISTING).json()
+    assert body["prices_as_of"] == "2026-09"
+    assert body["adjustment"]["factor"] == 1.5
+    assert body["predicted_rent_cop"] == pytest.approx(body["data_period_rent_cop"] * 1.5, abs=1000)
+    assert body["interval_low_cop"] < body["predicted_rent_cop"] < body["interval_high_cop"]

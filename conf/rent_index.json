@@ -1,0 +1,14 @@
+{
+  "index": "IPC, subclase 04130100 Arriendo efectivo (nacional, base dic 2018 = 100)",
+  "base_month": "2021-08",
+  "base_index": 105.37,
+  "current_month": "2026-09",
+  "current_index": 139.61,
+  "factor": 1.325,
+  "sources": [
+    "https://www.dane.gov.co/files/investigaciones/boletines/ipc/anexo_ipc_ago21.xlsx",
+    "https://www.dane.gov.co/files/operaciones/IPC/sep2026/anex-IPC-subclases-ingresos-total-sep2026.xlsx"
+  ],
+  "citation": "Fuente: Departamento Administrativo Nacional de Estad\u00edstica: www.dane.gov.co",
+  "retrieved_at": "2026-10-08T18:45:26+00:00"
+}

@@ -81,3 +81,13 @@ def test_only_the_comuna_is_required() -> None:
     assert row["estrato"] == "unknown"
     assert row["parking"] == "unknown"
     assert row["area_missing"]
+
+
+def test_predict_at_current_prices(saved_model: Path) -> None:
+    model, metadata = load_model(saved_model)
+    out = predict(model, metadata, _listing(), {"factor": 2.0}).iloc[0]
+    assert out["predicted_rent_cop_current"] == pytest.approx(
+        out["predicted_rent_cop"] * 2, abs=1000
+    )
+    assert out["interval_low_cop_current"] < out["predicted_rent_cop_current"]
+    assert out["predicted_rent_cop_current"] < out["interval_high_cop_current"]

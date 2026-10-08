@@ -17,6 +17,7 @@ paths:
   model_output: data/07_model_output
   reporting: data/08_reporting
   mlruns: mlruns
+  rent_index: conf/rent_index.json
 
 logging:
   level: INFO
@@ -26,3 +27,8 @@ params:
   test_size: 0.2
   cv_folds: 5
   lightgbm_tuning_iter: 20
+  # Rent price adjustment (DANE CPI, effective rent): last month of the training data and
+  # the month to bring predictions to. Update current_month and run `make prices`.
+  rent_index:
+    base_month: "2021-08"
+    current_month: "2026-09"

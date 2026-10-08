@@ -2,11 +2,14 @@
 
 New listings are described in a small, user-facing format (``NewListingSchema``): the comuna
 by its official name, plus whatever is known about the apartment. They are turned into the
-model's features with the same code as training. Predictions are in **2020-2021 prices**
-(the period of the training data); bringing them to current prices is #67.
+model's features with the same code as training. The model's predictions are in
+**2020-2021 prices** (the period of the training data).
 
 The 80% interval multiplies the prediction by the 10th and 90th percentiles of
 ``actual / predicted`` rent on the test set, stored in the model metadata at training time.
+
+With a rent index record (``conf/rent_index.json``, see :mod:`medellin_rent.data.prices`),
+every amount is also given at current prices (columns ending in ``_current``).
 """
 
 import json
@@ -93,17 +96,24 @@ def load_model(models_dir: Path) -> tuple[Any, dict[str, Any]]:
     return model, metadata
 
 
-def predict(model: Any, metadata: dict[str, Any], listings: pd.DataFrame) -> pd.DataFrame:
-    """Predicted monthly rent (COP, 2020-2021 prices) with an 80% interval when available.
+def predict(
+    model: Any,
+    metadata: dict[str, Any],
+    listings: pd.DataFrame,
+    rent_index: dict[str, Any] | None = None,
+) -> pd.DataFrame:
+    """Predicted monthly rent (COP) with an 80% interval, optionally at current prices.
 
     Args:
         model: Fitted model from ``06_models``.
         metadata: Its ``model_metadata.json``.
         listings: New listings in the ``NewListingSchema`` format.
+        rent_index: Price adjustment record (``conf/rent_index.json``), or ``None``.
 
     Returns:
-        ``predicted_rent_cop`` and, if the metadata has an interval,
-        ``interval_low_cop`` and ``interval_high_cop``, in the order of ``listings``.
+        ``predicted_rent_cop`` (data-period prices) and, if the metadata has an interval,
+        ``interval_low_cop`` and ``interval_high_cop``; with ``rent_index`` the same
+        columns again at current prices with a ``_current`` suffix. Rows follow ``listings``.
     """
     rent = predict_rent(model, to_features(listings))
     out = pd.DataFrame({"predicted_rent_cop": np.round(rent, -3)}, index=listings.index)
@@ -111,4 +121,10 @@ def predict(model: Any, metadata: dict[str, Any], listings: pd.DataFrame) -> pd.
     if interval:
         out["interval_low_cop"] = np.round(rent * interval["low_factor"], -3)
         out["interval_high_cop"] = np.round(rent * interval["high_factor"], -3)
+    if rent_index:
+        current = rent * rent_index["factor"]
+        out["predicted_rent_cop_current"] = np.round(current, -3)
+        if interval:
+            out["interval_low_cop_current"] = np.round(current * interval["low_factor"], -3)
+            out["interval_high_cop_current"] = np.round(current * interval["high_factor"], -3)
     return out

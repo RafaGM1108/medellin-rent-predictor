@@ -38,6 +38,7 @@ class PathsConfig(BaseModel):
     model_output: Path
     reporting: Path
     mlruns: Path
+    rent_index: Path
 
 
 class LoggingConfig(BaseModel):

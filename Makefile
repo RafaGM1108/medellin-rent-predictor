@@ -1,6 +1,6 @@
 PACKAGE := medellin_rent
 
-.PHONY: help install lint typecheck test coverage geo listings feature analysis train interpret infer app api docs clean
+.PHONY: help install lint typecheck test coverage geo listings prices feature analysis train interpret infer app api docs clean
 
 help:  ## Show this help
 	@grep -E '^[a-z]+:.*## ' $(MAKEFILE_LIST) | awk -F':.*## ' '{printf "  %-10s %s\n", $$1, $$2}'
@@ -28,6 +28,9 @@ geo:  ## Download comuna, barrio and estrato layers into data/01_raw/geo
 
 listings:  ## Check the raw listings file and record its checksum
 	uv run python -m $(PACKAGE).data
+
+prices:  ## Download DANE's rent CPI and write conf/rent_index.json
+	uv run python -m $(PACKAGE).data.prices
 
 feature:  ## Run the feature pipeline
 	uv run python -m $(PACKAGE).pipelines.feature_pipeline

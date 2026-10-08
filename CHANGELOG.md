@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Pandera schemas for the intermediate and primary listings tables; the feature pipeline validates the intermediate table; `pandera` dependency (#13).
 - `medellin_rent.data.parse` and the first feature pipeline step: typed intermediate table in `02_intermediate/listings.parquet` with area, rooms, bathrooms, parking, floor, age, estrato and amenities extracted from the text when not structured; text columns dropped; `pyarrow` dependency (#12).
 - Data documentation: sources, licenses, collection steps, what is committed and ethics (`docs/data.md`) (#11).
 - Offline tests for the listings loader on a synthetic fixture in the raw file format: multiline text, empty values, filters, redaction edge cases and errors (#9).

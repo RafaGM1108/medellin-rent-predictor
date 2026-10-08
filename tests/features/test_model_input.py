@@ -37,3 +37,17 @@ def test_split_sizes_disjoint_and_reproducible() -> None:
 def test_rejects_invalid_test_size(test_size: float) -> None:
     with pytest.raises(ValueError, match="test_size"):
         make_model_input(*_inputs(), test_size=test_size, seed=42)
+
+
+def test_no_listing_with_a_comuna_gives_empty_sets() -> None:
+    features, primary = _inputs()
+    features["comuna_code"] = pd.Series([None] * len(features), dtype="str")
+    train, test = make_model_input(features, primary, test_size=0.2, seed=42)
+    assert train.empty
+    assert test.empty
+
+
+def test_duplicate_listing_ids_are_rejected() -> None:
+    features, primary = _inputs()
+    with pytest.raises(pd.errors.MergeError):
+        make_model_input(features, pd.concat([primary, primary.iloc[:1]]), test_size=0.2, seed=1)

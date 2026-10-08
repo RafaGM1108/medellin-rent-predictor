@@ -68,3 +68,10 @@ def test_build_features_columns_and_single_row_encoding() -> None:
     one = build.build_features(_primary().iloc[[1]])
     for column in build.CATEGORICAL:
         assert one[column].cat.categories.equals(full[column].cat.categories)
+
+
+def test_build_features_on_empty_input() -> None:
+    out = build.build_features(_primary().iloc[:0])
+    assert out.empty
+    assert out.columns.tolist() == ["listing_id", *build.FEATURES]
+    assert out["estrato"].cat.categories.tolist() == build.ESTRATOS

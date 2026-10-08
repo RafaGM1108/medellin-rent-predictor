@@ -13,7 +13,30 @@ AMENITIES = ["has_elevator", "has_pool", "has_gym", "has_balcony", "has_doorman"
 UNKNOWN = "unknown"
 
 # Fixed category levels, so a single listing at inference gets the same encoding as training.
-COMUNAS = [f"{c:02d}" for c in range(1, 17)] + ["50", "60", "70", "80", "90"]
+COMUNA_NAMES = {  # official code -> name (GeoMedellín), 16 comunas and 5 corregimientos
+    "01": "POPULAR",
+    "02": "SANTA CRUZ",
+    "03": "MANRIQUE",
+    "04": "ARANJUEZ",
+    "05": "CASTILLA",
+    "06": "DOCE DE OCTUBRE",
+    "07": "ROBLEDO",
+    "08": "VILLA HERMOSA",
+    "09": "BUENOS AIRES",
+    "10": "LA CANDELARIA",
+    "11": "LAURELES",
+    "12": "LA AMERICA",
+    "13": "SAN JAVIER",
+    "14": "EL POBLADO",
+    "15": "GUAYABAL",
+    "16": "BELEN",
+    "50": "PALMITAS",
+    "60": "SAN CRISTOBAL",
+    "70": "ALTAVISTA",
+    "80": "SAN ANTONIO DE PRADO",
+    "90": "SANTA ELENA",
+}
+COMUNAS = list(COMUNA_NAMES)
 ESTRATOS = [str(e) for e in range(1, 7)] + [UNKNOWN]
 PARKING = ["yes", "no", UNKNOWN]
 QUARTERS = ["2020Q3", "2020Q4", "2021Q1", "2021Q2", "2021Q3", UNKNOWN]  # data period

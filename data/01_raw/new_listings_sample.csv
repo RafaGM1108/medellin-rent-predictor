@@ -1,0 +1,6 @@
+comuna,estrato,area_m2,bedrooms,bathrooms,parking,lat,lon,has_elevator,has_pool,has_gym,has_balcony,has_doorman,is_furnished
+EL POBLADO,5,80,2,2,yes,6.2086,-75.5659,true,true,true,true,true,false
+LAURELES,4,70,3,2,yes,,,false,false,false,true,true,false
+BELEN,4,,3,2,unknown,,,false,false,false,false,false,false
+ROBLEDO,3,55,2,1,no,,,false,false,false,false,false,false
+CASTILLA,3,,2,1,unknown,,,false,false,false,false,false,false

@@ -19,6 +19,7 @@ from typing import Any
 
 import joblib
 import mlflow
+import numpy as np
 import pandas as pd
 
 from medellin_rent.features.build import FEATURES
@@ -112,8 +113,19 @@ def run(config: Config | None = None, models: list[str] | None = None) -> Path:
 
     best = str(comparison.loc[0, "model"])
     model = factories[best]().fit(train[FEATURES], train[LOG_TARGET])
-    test_scores = metrics(test[TARGET], predict_rent(model, test)) if len(test) else {}
-    test_report = {"model": best, "n_test": len(test), **test_scores}
+    test_scores, interval = {}, None
+    if len(test):
+        predicted = predict_rent(model, test)
+        test_scores = metrics(test[TARGET], predicted)
+        # 80% interval: percentiles of actual / predicted rent on the held-out test set.
+        ratio = test[TARGET].to_numpy() / predicted
+        interval = {
+            "level": 0.8,
+            "low_factor": float(np.quantile(ratio, 0.1)),
+            "high_factor": float(np.quantile(ratio, 0.9)),
+            "source": "test-set residuals",
+        }
+    test_report = {"model": best, "n_test": len(test), **test_scores, "interval": interval}
     _write_json(test_report, out_dir / TEST_METRICS_FILE)
 
     paths.models.mkdir(parents=True, exist_ok=True)
@@ -128,6 +140,7 @@ def run(config: Config | None = None, models: list[str] | None = None) -> Path:
         "lightgbm_params": lightgbm_params if best.startswith("lightgbm") else None,
         "cv": {k: v for k, v in comparison.loc[0].items() if k != "model"},
         "test": test_scores,
+        "interval": interval,
         "data_period": "Properati listings published 2020-07-26 to 2021-08-19",
     }
     _write_json(metadata, paths.models / METADATA_FILE)

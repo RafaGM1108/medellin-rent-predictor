@@ -44,3 +44,41 @@ Share of the 26,095 primary listings with a value:
   per m² uses 9,004 listings.
 - **Floor, number of parking spots and building age are too sparse to use** as features.
 - Location (comuna, barrio, estrato) is available for about four in five listings.
+
+## Rent per m² by comuna and estrato (`medellin_rent.analysis.price_m2`)
+
+Source files: `price_m2_by_comuna.csv`, `price_m2_by_estrato.csv`,
+`price_m2_comuna_estrato.csv` and the matching PNGs. Only the 9,004 listings that state their
+area have a rent per m². Groups with fewer than 30 such listings stay in the CSVs with their
+`n` but are left out of the figures and of the conclusions below.
+
+### By comuna
+
+- **El Poblado is the most expensive comuna**: median 26,992 COP/m² (n = 2,332), 25% above
+  Laureles (21,622, n = 1,478), the second comuna by number of listings.
+- **Castilla is the cheapest** of the comunas with enough data: 11,943 COP/m² (n = 44),
+  less than half of El Poblado.
+- Most comunas cluster between 17,000 and 22,000 COP/m²: Belén, La Candelaria, Buenos Aires,
+  La América, San Javier and Robledo.
+
+### By estrato
+
+| Estrato | Listings | Median COP/m² |
+|--------:|---------:|--------------:|
+| 2 | 157 | 17,742 |
+| 3 | 1,259 | 16,923 |
+| 4 | 1,889 | 20,909 |
+| 5 | 2,217 | 22,000 |
+| 6 | 1,799 | 27,174 |
+
+- **Rent per m² rises with estrato from 3 upwards**: estrato 6 is 61% above estrato 3.
+- Estratos 2 and 3 have about the same median; estrato 1 has only 19 listings.
+
+### Comuna and estrato together
+
+- **The comuna matters beyond the estrato.** Within estrato 3 the median ranges from
+  11,667 COP/m² in Castilla (n = 38) to 23,913 in Guayabal (n = 45); within estrato 5 from
+  18,391 in La América (n = 385) to 26,667 in El Poblado (n = 356).
+- **In El Poblado the estrato matters little**: 24,833 (estrato 4), 26,667 (5) and
+  27,424 (6) COP/m².
+- So a model should use both location and estrato, not one as a proxy for the other.

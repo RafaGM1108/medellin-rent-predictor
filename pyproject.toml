@@ -4,7 +4,7 @@ version = "1.0.0"
 description = "Predicting and explaining monthly apartment rents in Medellín, Colombia."
 readme = "README.md"
 license = "MIT"
-authors = [{ name = "Rafael García Montes" }]
+authors = [{ name = "Rafael E. Garcia" }]
 requires-python = ">=3.12,<3.13"
 dependencies = [
     "fastapi>=0.115",

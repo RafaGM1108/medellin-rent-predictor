@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `medellin_rent.data.listings` and `make listings`: load Medellín apartment rentals from the Properati file with phone numbers and emails redacted, and record the file's checksum; `pandas` dependency (#8).
 - `medellin_rent.geo.boundaries` and `make geo`: download the official comuna and barrio boundaries with source metadata and load them in EPSG:4326; `geopandas` dependency (#10).
 - Data source survey: robots.txt and terms of use of five portals, public datasets and Medellín open data layers; decision not to scrape (#7).
 - Initial project template: layered data folders, staged notebooks, `medellin_rent` package

@@ -191,7 +191,7 @@ Libraries are added with `uv add` in the phase that first needs them.
 
 ## Author
 
-**Rafael García Montes**
+**Rafael E. Garcia**
 
 - GitHub: [@RafaGM1108](https://github.com/RafaGM1108)
 - LinkedIn: [linkedin.com/in/rafaelgarcia11](https://www.linkedin.com/in/rafaelgarcia11)

@@ -156,7 +156,8 @@ Docker (API):
 
 ```bash
 docker build -t medellin-rent-predictor .
-docker run --rm -p 8000:8000 medellin-rent-predictor
+docker run --rm -p 8000:8000 \
+  -v "$PWD/data/06_models:/app/data/06_models:ro" medellin-rent-predictor
 ```
 
 ## Roadmap

@@ -18,8 +18,14 @@ RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --locked --no-default-groups --no-editable
 
 # ---- Runtime stage: only the virtualenv and config ----------------------------
+# The trained model is not in the image (it is not in git): mount data/06_models at
+# /app/data/06_models. Without it /health works and /predict answers 503.
 FROM python:3.12-slim-bookworm
-RUN useradd --create-home --uid 1000 app
+# libgomp1: OpenMP runtime needed by LightGBM to load the model
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends libgomp1 \
+    && rm -rf /var/lib/apt/lists/* \
+    && useradd --create-home --uid 1000 app
 WORKDIR /app
 COPY --from=builder --chown=app:app /app/.venv /app/.venv
 COPY --chown=app:app conf ./conf

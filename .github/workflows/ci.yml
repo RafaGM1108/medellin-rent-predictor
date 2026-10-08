@@ -39,3 +39,27 @@ jobs:
           files: coverage.xml
           use_oidc: true
           fail_ci_if_error: true
+
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Build the API image
+        run: docker build -t medellin-rent-predictor .
+
+      - name: Smoke test /health
+        run: |
+          docker run -d --name api -p 8000:8000 medellin-rent-predictor
+          for i in $(seq 1 30); do
+            if curl -fs localhost:8000/health; then echo; break; fi
+            sleep 2
+          done
+          curl -fs localhost:8000/health | grep -q '"status":"ok"'
+          # Without a mounted model /predict must answer 503, not crash
+          test "$(curl -s -o /dev/null -w '%{http_code}' -X POST localhost:8000/predict \
+            -H 'content-type: application/json' -d '{"comuna": "LAURELES"}')" = 503
+
+      - name: Container logs
+        if: always()
+        run: docker logs api || true

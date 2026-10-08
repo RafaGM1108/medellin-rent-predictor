@@ -14,6 +14,7 @@ _NON_NEGATIVE = pa.Check.ge(0)
 IntermediateSchema = pa.DataFrameSchema(
     {
         "listing_id": pa.Column(str, nullable=False),
+        "text_hash": pa.Column("uint64", nullable=False),
         "start_date": pa.Column("datetime64[us]", nullable=True),
         "end_date": pa.Column("datetime64[us]", nullable=True),
         "created_on": pa.Column("datetime64[us]", nullable=True),

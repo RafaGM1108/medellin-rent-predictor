@@ -7,7 +7,8 @@ value when there is one. No business rules here: implausible values are kept and
 the cleaning step (#15).
 
 ``title`` and ``description`` are dropped from the output because they can contain agent
-names.
+names; ``text_hash`` (a one-way hash of the normalized text) keeps duplicate detection
+possible without them.
 """
 
 import html
@@ -85,6 +86,7 @@ def parse_listings(raw: pd.DataFrame) -> pd.DataFrame:
     out = pd.DataFrame(
         {
             "listing_id": raw["id"],
+            "text_hash": pd.util.hash_pandas_object(text, index=False),
             "start_date": pd.to_datetime(raw["start_date"], errors="coerce"),
             "end_date": pd.to_datetime(raw["end_date"], errors="coerce"),
             "created_on": pd.to_datetime(raw["created_on"], errors="coerce"),

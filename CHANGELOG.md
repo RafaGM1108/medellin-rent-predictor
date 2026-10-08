@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `medellin_rent.data.clean` and the primary step of the feature pipeline: duplicate, rent, area, count and floor rules with logged effects; located, cleaned and validated `03_primary/listings.parquet`; `text_hash` column for duplicate detection without the text (#15).
 - `medellin_rent.geo.mapping`: barrio and comuna for each listing from the declared comuna name and a point-in-polygon join, with name normalization, conflict handling and logged unmatched names (#14).
 - Pandera schemas for the intermediate and primary listings tables; the feature pipeline validates the intermediate table; `pandera` dependency (#13).
 - `medellin_rent.data.parse` and the first feature pipeline step: typed intermediate table in `02_intermediate/listings.parquet` with area, rooms, bathrooms, parking, floor, age, estrato and amenities extracted from the text when not structured; text columns dropped; `pyarrow` dependency (#12).

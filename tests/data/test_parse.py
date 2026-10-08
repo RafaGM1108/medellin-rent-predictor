@@ -91,3 +91,16 @@ def test_output_is_typed_and_has_no_text() -> None:
 
 def test_extract_number_returns_nan_without_match() -> None:
     assert extract_number(pd.Series(["nada"]), r"(\d+) m2").isna().all()
+
+
+def test_text_hash_identifies_identical_texts() -> None:
+    raw = pd.concat(
+        [
+            _raw(description="Mismo texto"),
+            _raw(description="mismo  TEXTO"),
+            _raw(description="otro"),
+        ]
+    )
+    hashes = parse_listings(raw.reset_index(drop=True))["text_hash"]
+    assert hashes.dtype == "uint64"
+    assert hashes[0] == hashes[1] != hashes[2]

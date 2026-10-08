@@ -1,26 +1,60 @@
 import shutil
 from pathlib import Path
 
+import geopandas as gpd
 import pandas as pd
+import pytest
+from shapely.geometry import box
 
 from medellin_rent.data.listings import RAW_FILE
 from medellin_rent.pipelines.feature_pipeline.pipeline import run
-from medellin_rent.utils.config import PathsConfig, load_config
+from medellin_rent.utils.config import Config, PathsConfig, load_config
 
 ROOT = Path(__file__).resolve().parents[3]
 FIXTURE = ROOT / "tests" / "data" / "fixtures" / "co_properties.csv"
 
 
-def test_run_writes_intermediate_parquet(tmp_path: Path) -> None:
+def _config(tmp_path: Path) -> Config:
     config = load_config(ROOT / "conf" / "base.yaml")
-    paths = {name: tmp_path / name for name in PathsConfig.model_fields}
-    config = config.model_copy(update={"paths": PathsConfig(**paths)})
-    paths["raw_listings"].mkdir()
-    shutil.copy(FIXTURE, paths["raw_listings"] / RAW_FILE)
+    paths = PathsConfig(**{name: tmp_path / name for name in PathsConfig.model_fields})
+    paths.raw_listings.mkdir()
+    shutil.copy(FIXTURE, paths.raw_listings / RAW_FILE)
+    return config.model_copy(update={"paths": paths})
+
+
+def _write_barrios(directory: Path) -> None:
+    # One synthetic barrio around the fixture's El Poblado listing, in the source format.
+    directory.mkdir(parents=True)
+    gpd.GeoDataFrame(
+        {
+            "codigo": ["1401"],
+            "nombre_barrio": ["Barrio Test"],
+            "comuna": ["14"],
+            "nombre_comuna": ["EL POBLADO"],
+            "indicador_ur": ["U"],
+        },
+        geometry=[box(-75.57, 6.20, -75.56, 6.21)],
+        crs="EPSG:4326",
+    ).to_crs("EPSG:9377").to_file(directory / "barrios.geojson", driver="GeoJSON")
+
+
+def test_run_writes_intermediate_and_primary(tmp_path: Path) -> None:
+    config = _config(tmp_path)
+    _write_barrios(config.paths.raw_geo)
 
     out = run(config)
 
-    listings = pd.read_parquet(out)
-    assert out == paths["intermediate"] / "listings.parquet"
-    assert listings["listing_id"].tolist() == ["fx1", "fx2"]
-    assert "description" not in listings.columns
+    intermediate = pd.read_parquet(config.paths.intermediate / "listings.parquet")
+    primary = pd.read_parquet(out)
+    assert out == config.paths.primary / "listings.parquet"
+    assert intermediate["listing_id"].tolist() == ["fx1", "fx2"]
+    assert primary["listing_id"].tolist() == ["fx1", "fx2"]
+    assert primary["comuna_name"].tolist()[0] == "EL POBLADO"
+    assert primary["barrio_name"].tolist()[0] == "Barrio Test"
+    assert pd.isna(primary["comuna_code"].iloc[1])  # fx2 has no location
+    assert "description" not in primary.columns
+
+
+def test_run_asks_for_the_boundaries_first(tmp_path: Path) -> None:
+    with pytest.raises(FileNotFoundError, match="make geo"):
+        run(_config(tmp_path))

@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Edge-case tests for features and model input: empty input, no listing with a comuna, duplicate listing ids (#24).
 - Feature pipeline writes `04_feature/features.parquet` and `05_model_input/{train,test}.parquet` (listings with a comuna, `rent_cop` and `log_rent`, split with `params.test_size` and the project seed) (#23).
 - `medellin_rent.features.build`: size, rooms, three-level parking, amenities, location (fixed comuna/estrato levels, lat/lon, barrio) and listing quarter features, computed per listing with no data-derived statistics (#22).
 - `docs/decisions.md`: key findings of Phases 1-3 and the modelling decisions for Phases 4-5 (target, rows, features, validation, baseline, price adjustment) (#21).

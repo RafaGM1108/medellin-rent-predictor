@@ -12,6 +12,7 @@ dependencies = [
     "geopandas>=1.2.0",
     "lightgbm>=4.7.0",
     "matplotlib>=3.11.2",
+    "mlflow>=3.17.0",
     "pandas>=3.0.6",
     "pandera>=0.34.1",
     "pyarrow>=25.0.1",
@@ -71,7 +72,7 @@ files = ["src", "tests"]
 plugins = ["pydantic.mypy"]
 
 [[tool.mypy.overrides]]
-module = ["geopandas.*", "shapely.*", "pyogrio.*", "sklearn.*", "lightgbm.*"]
+module = ["geopandas.*", "shapely.*", "pyogrio.*", "sklearn.*", "lightgbm.*", "mlflow.*", "joblib.*"]
 ignore_missing_imports = true
 
 # --- bandit -----------------------------------------------------------------

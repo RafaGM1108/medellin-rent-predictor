@@ -36,6 +36,7 @@ class PathsConfig(BaseModel):
     models: Path
     model_output: Path
     reporting: Path
+    mlruns: Path
 
 
 class LoggingConfig(BaseModel):

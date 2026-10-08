@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `docs/decisions.md`: key findings of Phases 1-3 and the modelling decisions for Phases 4-5 (target, rows, features, validation, baseline, price adjustment) (#21).
 - `medellin_rent.analysis.rent_map`: choropleth of median rent per m² by comuna, static PNG (committed, in the README) and interactive folium HTML (git-ignored because it embeds the boundaries); `folium` dependency (#19).
 - `medellin_rent.analysis.hypothesis`: rank-based tests of the effect of parking (overall and within estrato) and of estrato on rent, with effect sizes, bootstrap CIs and Holm adjustment; `hypothesis_tests.json` and conclusions in `docs/analysis.md`; `scipy` dependency (#20).
 - `medellin_rent.analysis.price_m2`: rent per m² by comuna, by estrato and by both (CSV + PNG in `data/08_reporting/`), with conclusions in `docs/analysis.md` (#18).

@@ -146,9 +146,9 @@ which may not be redistributed). Colors use the median rent per m² from
 
 - **The most expensive comuna is El Poblado**, in the south-east (26,992 COP/m²), followed by
   Altavista (24,000, n = 81), Guayabal (22,000) and Laureles (21,622).
-- **The cheapest comunas with enough data are in the north and north-east**: Castilla
-  (11,943), Aranjuez (15,294) and Villa Hermosa (15,000), together with San Antonio de Prado
-  (15,000) in the south-west.
+- **The cheapest comunas with enough data are in the north and centre-east**: Castilla
+  (11,943, north-west), Aranjuez (15,294, north-east) and Villa Hermosa (15,000,
+  centre-east), together with the corregimiento San Antonio de Prado (15,000, south-west).
 - **Five areas are grey** (fewer than 30 listings with area): the corregimientos Palmitas
   (none) and Santa Elena (18), and the north-eastern comunas Popular (12), Santa Cruz (14)
   and Doce de Octubre (10).

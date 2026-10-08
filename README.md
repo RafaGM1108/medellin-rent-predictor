@@ -59,12 +59,56 @@ The project follows a feature / training / inference (FTI) pipeline architecture
 
 ## Results
 
-TODO: results go here **only** after an actual run. Every number and figure must come
-from a file in [`data/08_reporting/`](data/08_reporting/).
+Every number and figure below comes from a file in
+[`data/08_reporting/`](data/08_reporting/), produced by `make analysis`, `make train` and
+`make interpret`. Details: [docs/models.md](docs/models.md) and
+[docs/analysis.md](docs/analysis.md).
 
-| Metric | Value | Source |
-|--------|-------|--------|
-| TODO | TODO | `data/08_reporting/TODO.json` |
+### Model comparison (5-fold cross-validation, 16,890 training listings)
+
+| Model | MAE (COP) | RMSE (COP) | MAPE |
+|-------|----------:|-----------:|-----:|
+| **LightGBM** | **374,166** | **866,113** | **16.0%** |
+| LightGBM + barrio target encoding | 380,277 | 875,058 | 16.4% |
+| Random Forest | 399,000 | 920,036 | 17.0% |
+| Ridge | 512,155 | 1,065,520 | 23.3% |
+| Baseline (comuna median) | 646,954 | 1,292,196 | 29.8% |
+
+Source: `model_comparison.csv`.
+
+### Held-out test set (4,222 listings, LightGBM)
+
+| MAE (COP) | RMSE (COP) | MAPE | 80% interval |
+|----------:|-----------:|-----:|-------------:|
+| 351,516 | 816,338 | 15.6% | prediction × 0.78 to × 1.26 |
+
+Source: `test_metrics.json`. Prices are 2020-2021; the API and the app bring them to
+September 2026 prices with DANE's CPI for rent (factor 1.325, `conf/rent_index.json`).
+
+### What drives the rent
+
+![What drives the predicted rent (SHAP)](data/08_reporting/shap_importance.png)
+
+- **Location first**: the comuna changes the prediction by 18.8% on average, and the
+  coordinates add 6.3% (longitude) and 5.6% (latitude) (`shap_importance.csv`).
+- **Size through rooms**: bathrooms (16.3%) rank above area (4.8%) because area is missing
+  for about two thirds of listings.
+- **El Poblado** raises the prediction by 29.0% against the average listing
+  (`shap_by_comuna.csv`); **estrato** adds up to about +7% (estrato 6) once location and size
+  are known (`shap_by_estrato.csv`).
+
+### Limitations
+
+- **Old prices.** Listings are from July 2020 to August 2021. The adjustment to current prices
+  uses one national rent index for the whole city.
+- **Sparse fields.** Area is stated in only 34.5% of listings, floor and building age almost
+  never; parking and amenities come from the listing text.
+- **Asking prices, not contracts.** Listings show the rent asked, which may differ from the
+  rent finally agreed.
+- **Top of the market.** RMSE is more than twice the MAE: a few expensive listings have large
+  errors.
+- **Single source.** One portal's listings (Properati), whose license could not be verified,
+  so the data is not redistributed.
 
 ## Project structure
 

@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- README Results: model comparison, test metrics with the 80% interval, SHAP drivers and limitations, all from `data/08_reporting/` (#38).
 - Streamlit app "Is this rent fair?": form with the model's inputs and the listed rent, estimate at current prices with the 80% range, verdict (good deal / fair / expensive) and the main drivers of that listing's estimate from SHAP; logic in `medellin_rent.app.logic` (#36).
 - Predictions at current prices: `medellin_rent.data.prices` and `make prices` read DANE's CPI for effective rent (subclass 04130100) for the data's last month and a configurable current month into `conf/rent_index.json`; `make infer` adds `_current` columns and the API returns current prices with the adjustment, `prices_as_of` and the data-period prediction; `openpyxl` dependency (#67).
 - CI `docker` job: builds the API image and smoke-tests `/health` (and 503 on `/predict` without a model); runtime image installs `libgomp1` for LightGBM; README shows how to mount the model (#35).

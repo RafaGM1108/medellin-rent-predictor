@@ -76,6 +76,7 @@ from a file in [`data/08_reporting/`](data/08_reporting/).
 ├── src/medellin_rent/
 │   ├── data/               # Listings acquisition (scraper or loader) and cleaning
 │   ├── geo/                # Boundaries loading and barrio → comuna mapping
+│   ├── analysis/           # Reproducible analyses (make analysis)
 │   ├── features/           # Feature engineering
 │   ├── model/              # Training and evaluation
 │   ├── inference/          # Prediction logic
@@ -127,6 +128,7 @@ make lint typecheck test     # check everything works
 | `make geo` | Download comuna, barrio and estrato layers into `data/01_raw/geo/` |
 | `make listings` | Check the manually downloaded listings file and record its checksum |
 | `make feature` / `make train` / `make infer` | Run the pipelines |
+| `make analysis` | Regenerate the analysis figures and tables in `data/08_reporting/` |
 | `make api` | FastAPI on http://localhost:8000 (docs at `/docs`) |
 | `make app` | Streamlit on http://localhost:8501 |
 | `make coverage` | Tests with an HTML coverage report |
@@ -145,8 +147,8 @@ docker run --rm -p 8000:8000 medellin-rent-predictor
 |-------|-----------|-------|--------|
 | 0 | [Phase 0 - Setup](https://github.com/RafaGM1108/medellin-rent-predictor/milestone/1) | Repo, issues, Kanban board, CI green | ✅ Done |
 | 1 | [Phase 1 - Data acquisition](https://github.com/RafaGM1108/medellin-rent-predictor/milestone/2) | Acquisition module (scraper or loader) with tests; raw data; source documentation | ✅ Done |
-| 2 | [Phase 2 - Cleaning and validation](https://github.com/RafaGM1108/medellin-rent-predictor/milestone/3) | Pandera schemas, barrio → comuna mapping, outlier handling | 🟡 In progress |
-| 3 | [Phase 3 - EDA and statistical analysis](https://github.com/RafaGM1108/medellin-rent-predictor/milestone/4) | Price per m² by comuna and estrato, interactive map, hypothesis tests | ⬜ |
+| 2 | [Phase 2 - Cleaning and validation](https://github.com/RafaGM1108/medellin-rent-predictor/milestone/3) | Pandera schemas, barrio → comuna mapping, outlier handling | ✅ Done |
+| 3 | [Phase 3 - EDA and statistical analysis](https://github.com/RafaGM1108/medellin-rent-predictor/milestone/4) | Price per m² by comuna and estrato, interactive map, hypothesis tests | 🟡 In progress |
 | 4 | [Phase 4 - Feature pipeline](https://github.com/RafaGM1108/medellin-rent-predictor/milestone/5) | Feature engineering and the feature pipeline | ⬜ |
 | 5 | [Phase 5 - Training](https://github.com/RafaGM1108/medellin-rent-predictor/milestone/6) | Baseline, Ridge, Random Forest, LightGBM; k-fold CV; MLflow; SHAP | ⬜ |
 | 6 | [Phase 6 - Inference and API](https://github.com/RafaGM1108/medellin-rent-predictor/milestone/7) | Inference pipeline, FastAPI endpoint, Docker image | ⬜ |

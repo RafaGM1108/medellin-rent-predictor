@@ -19,7 +19,8 @@ paths:
 logging:
   level: INFO
 
-# Pipeline parameters: held-out test share and number of cross-validation folds.
+# Pipeline parameters: held-out test share, cross-validation folds, LightGBM search size.
 params:
   test_size: 0.2
   cv_folds: 5
+  lightgbm_tuning_iter: 20

@@ -15,6 +15,7 @@ paths:
   models: data/06_models
   model_output: data/07_model_output
   reporting: data/08_reporting
+  mlruns: mlruns
 
 logging:
   level: INFO

@@ -45,3 +45,62 @@ subsample 1.0, colsample_bytree 0.8, reg_lambda 0), 4,222 held-out listings:
   evaluation use the same rows; the test score is the honest estimate. The best
   configuration sits at the edge of the search space for `num_leaves` and `learning_rate`.
   Prices are from 2020-2021 (see #67).
+
+## What drives the predicted rent (SHAP, `make interpret`)
+
+Source files: `shap_importance.csv`/`.png`, `shap_by_comuna.csv`, `shap_by_estrato.csv`/`.png`
+and `shap_dependence_area.png`, computed for the saved LightGBM model on the 4,222 test
+listings. SHAP values come from LightGBM's own TreeSHAP (`pred_contrib=True`), which handles
+its native categories and missing values exactly. The model predicts `log(rent)`, so each
+value is shown as a percentage change of the predicted rent, holding the other features at
+the listing's values.
+
+### Importance (mean absolute effect)
+
+| Feature | Effect | Feature | Effect |
+|---------|-------:|---------|-------:|
+| comuna | 18.8% | estrato | 4.8% |
+| bathrooms | 16.3% | area | 4.8% |
+| longitude | 6.3% | furnished | 4.0% |
+| latitude | 5.6% | parking | 2.7% |
+| bedrooms | 5.1% | balcony | 2.3% |
+
+The remaining features (listing quarter, gym, pool, doorman, elevator, area missing) each
+move the prediction by 2% or less.
+
+- **Location is the main driver**: comuna plus coordinates add up to the largest effects.
+- **Bathrooms rank above area** because area is missing for about two thirds of listings;
+  bathrooms and bedrooms then carry most of the information about size. Where the area is
+  known, its effect rises steadily with size (`shap_dependence_area.png`): negative for small
+  apartments, positive above roughly 100 m².
+- **Being furnished matters more than any other amenity** (4.0%).
+
+### Comuna (mean effect, comunas with at least 50 test listings)
+
+| Comuna | Test listings | Effect |
+|--------|-------------:|-------:|
+| El Poblado | 1,441 | +29.0% |
+| Laureles | 719 | -0.7% |
+| Belén | 546 | -12.1% |
+| La América | 377 | -14.2% |
+| Buenos Aires | 252 | -17.0% |
+| Robledo | 242 | -15.9% |
+| La Candelaria | 200 | -17.2% |
+| San Javier | 102 | -20.0% |
+| San Cristóbal | 69 | -16.2% |
+| Guayabal | 55 | -13.9% |
+
+Effects are relative to the model's average prediction, which El Poblado's many listings
+pull up; that is why most comunas are negative.
+
+### Estrato (mean effect)
+
+| Estrato | 1 | 2 | 3 | 4 | 5 | 6 | unknown |
+|---------|--:|--:|--:|--:|--:|--:|--------:|
+| Effect | -4.3% | -5.9% | -7.1% | -1.4% | +3.3% | +6.8% | -3.4% |
+| Test listings | 17 | 102 | 756 | 997 | 1,036 | 1,174 | 140 |
+
+- **Once location and size are known, estrato adds a smaller effect**: about 14 points
+  between estrato 3 and 6, far less than the 61% raw gap in rent per m² (Phase 3). Much of
+  the raw estrato effect is really location, as the comuna-by-estrato analysis suggested.
+- Estratos 1 and 2 have few listings; their effects are not reliable.

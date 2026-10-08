@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `POST /predict`: pydantic request (official comuna names, optional fields with ranges and descriptions), predicted rent with the 80% interval and the price period; model loaded at startup, 503 when missing (#33).
 - `medellin_rent.inference.predict` and `make infer`: new listings in a user-facing format (comuna by official name, validated with pandera) priced with the saved model and an 80% interval from test-set residuals (stored in the model metadata); predictions in `07_model_output/predictions.csv`; synthetic `new_listings_sample.csv` (#32).
 - End-to-end training test on synthetic data with every model and LightGBM tuning, checking the schemas of `model_comparison.json`, `test_metrics.json`, `lightgbm_tuning.csv` and the model metadata (#31).
 - `medellin_rent.analysis.interpret` and `make interpret`: SHAP values of the saved LightGBM model on the test set (LightGBM TreeSHAP), importance and effects by comuna, estrato and area, with conclusions in `docs/models.md` (#30).

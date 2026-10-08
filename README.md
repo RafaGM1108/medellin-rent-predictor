@@ -141,6 +141,17 @@ make lint typecheck test     # check everything works
 | `make coverage` | Tests with an HTML coverage report |
 | `make docs` | Serve the documentation locally |
 
+API (needs a trained model, `make train`):
+
+```bash
+make api
+curl -X POST localhost:8000/predict -H 'content-type: application/json' \
+  -d '{"comuna": "EL POBLADO", "estrato": 5, "area_m2": 80, "bedrooms": 2, "parking": "yes"}'
+```
+
+Only `comuna` is required (official name, see `/docs`); the response has the predicted
+monthly rent in COP, an 80% interval and a note that prices are from 2020-2021.
+
 Docker (API):
 
 ```bash

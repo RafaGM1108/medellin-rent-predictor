@@ -12,7 +12,7 @@ import streamlit as st
 from medellin_rent.app.logic import explain, verdict
 from medellin_rent.data.prices import load_rent_index
 from medellin_rent.features.build import COMUNA_NAMES
-from medellin_rent.inference.predict import load_model, predict
+from medellin_rent.inference.predict import download_model, load_model, predict
 from medellin_rent.utils.config import get_config
 
 VERDICT_TEXT = {
@@ -24,7 +24,10 @@ VERDICT_TEXT = {
 
 @st.cache_resource
 def _load() -> tuple[Any, dict[str, Any], dict[str, Any] | None]:
-    paths = get_config().paths
+    config = get_config()
+    paths = config.paths
+    if not (paths.models / "model.joblib").is_file() and "model_release_url" in config.params:
+        download_model(paths.models, config.params["model_release_url"])
     model, metadata = load_model(paths.models)
     return model, metadata, load_rent_index(paths.rent_index)
 
@@ -42,8 +45,11 @@ st.write(
 
 try:
     model, metadata, rent_index = _load()
-except FileNotFoundError:
-    st.error("No trained model found. Run `make feature` and `make train` first.")
+except OSError as error:  # missing files or a failed download
+    st.error(
+        "No trained model available. Locally, run `make feature` and `make train`; "
+        f"online, the model is downloaded from the GitHub release ({error})."
+    )
     st.stop()
 
 with st.form("listing"):

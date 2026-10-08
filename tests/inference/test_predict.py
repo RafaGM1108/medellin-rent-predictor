@@ -91,3 +91,45 @@ def test_predict_at_current_prices(saved_model: Path) -> None:
     )
     assert out["interval_low_cop_current"] < out["predicted_rent_cop_current"]
     assert out["predicted_rent_cop_current"] < out["interval_high_cop_current"]
+
+
+def test_download_model_fetches_missing_files(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    import io
+
+    from medellin_rent.inference import predict as module
+
+    requested: list[str] = []
+
+    class _Response(io.BytesIO):
+        def __enter__(self) -> "_Response":
+            return self
+
+        def __exit__(self, *args: object) -> None:
+            self.close()
+
+    def fake_urlopen(request: object, timeout: float) -> _Response:
+        url = request.full_url  # type: ignore[attr-defined]
+        requested.append(url)
+        return _Response(url.encode())
+
+    monkeypatch.setattr(module, "urlopen", fake_urlopen)
+    models = tmp_path / "models"
+    models.mkdir()
+    (models / "model_metadata.json").write_text("{}")  # already there: not downloaded
+    base = "https://github.com/RafaGM1108/medellin-rent-predictor/releases/download/v1.0.0"
+
+    module.download_model(models, base)
+
+    assert requested == [f"{base}/model.joblib"]
+    assert (models / "model.joblib").read_bytes() == f"{base}/model.joblib".encode()
+    assert (models / "model_metadata.json").read_text() == "{}"
+    assert not list(models.glob("*.part"))
+
+
+def test_download_model_only_from_github(tmp_path: Path) -> None:
+    from medellin_rent.inference.predict import download_model
+
+    with pytest.raises(ValueError, match="GitHub"):
+        download_model(tmp_path, "http://example.com/model")

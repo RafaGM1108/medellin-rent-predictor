@@ -29,6 +29,8 @@ params:
   lightgbm_tuning_iter: 20
   # Rent price adjustment (DANE CPI, effective rent): last month of the training data and
   # the month to bring predictions to. Update current_month and run `make prices`.
+  # Where the app downloads the trained model when it is not on disk (Streamlit Cloud).
+  model_release_url: https://github.com/RafaGM1108/medellin-rent-predictor/releases/download/v1.0.0
   rent_index:
     base_month: "2021-08"
     current_month: "2026-09"

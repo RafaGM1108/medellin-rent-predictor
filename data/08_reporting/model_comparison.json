@@ -1,6 +1,15 @@
 {
   "n_train": 16890,
   "cv_folds": 5,
+  "lightgbm_params": {
+    "num_leaves": 127,
+    "learning_rate": 0.1,
+    "n_estimators": 600,
+    "min_child_samples": 10,
+    "subsample": 1.0,
+    "colsample_bytree": 0.8,
+    "reg_lambda": 0.0
+  },
   "models": [
     {
       "model": "baseline",
@@ -23,11 +32,29 @@
     {
       "model": "random_forest",
       "mae_mean": 398999.57094186416,
-      "mae_std": 9420.410717313647,
-      "rmse_mean": 920036.4279127059,
-      "rmse_std": 23299.456398264014,
+      "mae_std": 9420.410717313653,
+      "rmse_mean": 920036.4279127062,
+      "rmse_std": 23299.456398264076,
       "mape_mean": 17.030392253116865,
-      "mape_std": 0.3022900621716231
+      "mape_std": 0.3022900621716196
+    },
+    {
+      "model": "lightgbm",
+      "mae_mean": 374166.15183715813,
+      "mae_std": 8595.045624922848,
+      "rmse_mean": 866112.7474106001,
+      "rmse_std": 6710.072544229028,
+      "mape_mean": 16.02577666144631,
+      "mape_std": 0.3508161036630447
+    },
+    {
+      "model": "lightgbm_barrio",
+      "mae_mean": 380276.57725062716,
+      "mae_std": 11863.180889317813,
+      "rmse_mean": 875057.7352603948,
+      "rmse_std": 16794.03873882392,
+      "mape_mean": 16.392675400259783,
+      "mape_std": 0.3796205601522946
     }
   ]
 }

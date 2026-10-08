@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Link to the live app on Streamlit Community Cloud in the README and docs (#37).
+
 ## [1.0.0] - 2026-10-08
 
 ### Added

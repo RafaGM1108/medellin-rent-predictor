@@ -7,6 +7,8 @@
 
 > Is this rent fair? Predicting and explaining monthly apartment rents in Medellín, Colombia.
 
+**[Try the app: Is this rent fair?](https://medellin-rent-predictor-n6myf87szm27upzyvi9fbv.streamlit.app/)**
+
 ## Overview
 
 This project predicts the monthly rent (COP) of an apartment in Medellín from its
@@ -198,7 +200,7 @@ Only `comuna` is required (official name, see `/docs`); the response has the pre
 monthly rent in COP at current prices (`prices_as_of`, adjusted with DANE's rent CPI), an
 80% interval, the adjustment applied and the prediction at 2020-2021 prices.
 
-Online app (Streamlit Community Cloud): the trained model is not in git, so the app
+Online app ([Streamlit Community Cloud](https://medellin-rent-predictor-n6myf87szm27upzyvi9fbv.streamlit.app/)): the trained model is not in git, so the app
 downloads `model.joblib` and `model_metadata.json` from the GitHub release set in
 `params.model_release_url` the first time it starts. Dependencies come from
 `requirements.txt`, exported from `uv.lock` (a pre-commit hook keeps it in sync).
@@ -221,8 +223,8 @@ docker run --rm -p 8000:8000 \
 | 3 | [Phase 3 - EDA and statistical analysis](https://github.com/RafaGM1108/medellin-rent-predictor/milestone/4) | Price per m² by comuna and estrato, interactive map, hypothesis tests | ✅ Done |
 | 4 | [Phase 4 - Feature pipeline](https://github.com/RafaGM1108/medellin-rent-predictor/milestone/5) | Feature engineering and the feature pipeline | ✅ Done |
 | 5 | [Phase 5 - Training](https://github.com/RafaGM1108/medellin-rent-predictor/milestone/6) | Baseline, Ridge, Random Forest, LightGBM; k-fold CV; MLflow; SHAP | ✅ Done |
-| 6 | [Phase 6 - Inference and API](https://github.com/RafaGM1108/medellin-rent-predictor/milestone/7) | Inference pipeline, FastAPI endpoint, Docker image | 🟡 In progress |
-| 7 | [Phase 7 - App and release](https://github.com/RafaGM1108/medellin-rent-predictor/milestone/8) | Streamlit app on Streamlit Community Cloud, README results, `v1.0.0` | ⬜ |
+| 6 | [Phase 6 - Inference and API](https://github.com/RafaGM1108/medellin-rent-predictor/milestone/7) | Inference pipeline, FastAPI endpoint, Docker image | ✅ Done |
+| 7 | [Phase 7 - App and release](https://github.com/RafaGM1108/medellin-rent-predictor/milestone/8) | Streamlit app on Streamlit Community Cloud, README results, `v1.0.0` | ✅ Done |
 
 ## Project management
 

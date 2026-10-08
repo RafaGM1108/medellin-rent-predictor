@@ -1,0 +1,2 @@
+model,mae_mean,mae_std,rmse_mean,rmse_std,mape_mean,mape_std
+baseline,646953.5484,18791.5831,1292196.4690,70485.4131,29.8468,0.4686

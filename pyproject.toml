@@ -16,6 +16,7 @@ dependencies = [
     "pyarrow>=25.0.1",
     "pydantic>=2.9",
     "pyyaml>=6.0",
+    "scikit-learn>=1.9.1",
     "scipy>=1.18.1",
     "uvicorn[standard]>=0.32",
 ]
@@ -69,7 +70,7 @@ files = ["src", "tests"]
 plugins = ["pydantic.mypy"]
 
 [[tool.mypy.overrides]]
-module = ["geopandas.*", "shapely.*", "pyogrio.*"]
+module = ["geopandas.*", "shapely.*", "pyogrio.*", "sklearn.*"]
 ignore_missing_imports = true
 
 # --- bandit -----------------------------------------------------------------

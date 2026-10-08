@@ -19,6 +19,7 @@ paths:
 logging:
   level: INFO
 
-# Free-form parameters for pipelines (TODO: fill per project).
+# Pipeline parameters: held-out test share and number of cross-validation folds.
 params:
   test_size: 0.2
+  cv_folds: 5

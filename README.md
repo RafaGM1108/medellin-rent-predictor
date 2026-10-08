@@ -153,8 +153,8 @@ docker run --rm -p 8000:8000 medellin-rent-predictor
 | 1 | [Phase 1 - Data acquisition](https://github.com/RafaGM1108/medellin-rent-predictor/milestone/2) | Acquisition module (scraper or loader) with tests; raw data; source documentation | ✅ Done |
 | 2 | [Phase 2 - Cleaning and validation](https://github.com/RafaGM1108/medellin-rent-predictor/milestone/3) | Pandera schemas, barrio → comuna mapping, outlier handling | ✅ Done |
 | 3 | [Phase 3 - EDA and statistical analysis](https://github.com/RafaGM1108/medellin-rent-predictor/milestone/4) | Price per m² by comuna and estrato, interactive map, hypothesis tests | ✅ Done |
-| 4 | [Phase 4 - Feature pipeline](https://github.com/RafaGM1108/medellin-rent-predictor/milestone/5) | Feature engineering and the feature pipeline | 🟡 In progress |
-| 5 | [Phase 5 - Training](https://github.com/RafaGM1108/medellin-rent-predictor/milestone/6) | Baseline, Ridge, Random Forest, LightGBM; k-fold CV; MLflow; SHAP | ⬜ |
+| 4 | [Phase 4 - Feature pipeline](https://github.com/RafaGM1108/medellin-rent-predictor/milestone/5) | Feature engineering and the feature pipeline | ✅ Done |
+| 5 | [Phase 5 - Training](https://github.com/RafaGM1108/medellin-rent-predictor/milestone/6) | Baseline, Ridge, Random Forest, LightGBM; k-fold CV; MLflow; SHAP | 🟡 In progress |
 | 6 | [Phase 6 - Inference and API](https://github.com/RafaGM1108/medellin-rent-predictor/milestone/7) | Inference pipeline, FastAPI endpoint, Docker image | ⬜ |
 | 7 | [Phase 7 - App and release](https://github.com/RafaGM1108/medellin-rent-predictor/milestone/8) | Streamlit app on Streamlit Community Cloud, README results, `v1.0.0` | ⬜ |
 

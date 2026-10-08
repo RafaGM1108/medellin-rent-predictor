@@ -113,6 +113,20 @@ area 23.5%, bedrooms 80.4%, bathrooms 98.7%, parking mentioned 55.8% (number of 
 - Most rows without a location are re-published duplicates: among the 26,116 distinct
   listings (same text and rent), 81% have a location.
 
+### Cleaning rules (`medellin_rent.data.clean`, `03_primary/listings.parquet`, 2026-10-08)
+
+Thresholds were chosen from the real distribution of the intermediate table (rent 1st-99th
+percentile 620,000-9,700,000 COP; median area 70 m²; median rent per m² 21,400 COP).
+
+| # | Rule | Effect on the real run |
+|---|------|------------------------|
+| 1 | Same text (hash) and rent = re-published ad: keep the most recent | dropped 76,053 of 102,169 |
+| 2 | Rent outside 300,000-30,000,000 COP: drop (rent is the target) | dropped 21 of 26,116 |
+| 3 | Area outside 20-1,000 m² or rent per m² outside 5,000-150,000 COP: area set to NA | 52 values cleared |
+| 4 | Bedrooms, bathrooms or parking above 10, floor above 50: set to NA | 12 / 1 / 0 / 10 values cleared |
+
+Result: **26,095 listings**, 21,112 with a comuna. The table passes `PrimarySchema`.
+
 ### Open points
 
 - Verify the license of the original Properati Colombia data before downloading it.

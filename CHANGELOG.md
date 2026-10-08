@@ -7,19 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Removed
-
-- `notebooks/`: analyses are reproducible scripts in `src/` run with `make`; CLAUDE.md convention, README, docs and tooling updated (#61).
-
-### Changed
-
-- Issue forms apply `type:feat` and `type:bug`, the labels used in this repo (#47).
-- Dependabot no longer proposes major/minor Python bumps of the Docker base image, which must stay on 3.12 (#40).
-- Codecov uploads authenticate with OIDC instead of a token secret and fail the CI on error; added `codecov.yml` with 80% project and patch targets (#6).
-- Filled the README (overview, motivation, data, approach, roadmap, tech stack) and added a Project management section; removed the template setup section (#5).
-- Split `data/01_raw` into `listings/` and `geo/`, added the `geo` module and documented the adaptation in the README (#4).
-- Filled the Project section of `CLAUDE.md` with the spec and roadmap; renamed the workflow conventions to "Kanban workflow" (#3).
-- Renamed the placeholder package `ds_project` to `medellin_rent` (#2).
+## [1.0.0] - 2026-10-08
 
 ### Added
 
@@ -63,3 +51,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Tooling: uv, ruff, mypy, bandit, pytest + coverage, pre-commit, Makefile.
 - GitHub Actions CI with Codecov upload, Dependabot, PR and issue templates.
 - MkDocs Material documentation skeleton, devcontainer and multi-stage Dockerfile.
+
+### Changed
+
+- Issue forms apply `type:feat` and `type:bug`, the labels used in this repo (#47).
+- Dependabot no longer proposes major/minor Python bumps of the Docker base image, which must stay on 3.12 (#40).
+- Codecov uploads authenticate with OIDC instead of a token secret and fail the CI on error; added `codecov.yml` with 80% project and patch targets (#6).
+- Filled the README (overview, motivation, data, approach, roadmap, tech stack) and added a Project management section; removed the template setup section (#5).
+- Split `data/01_raw` into `listings/` and `geo/`, added the `geo` module and documented the adaptation in the README (#4).
+- Filled the Project section of `CLAUDE.md` with the spec and roadmap; renamed the workflow conventions to "Kanban workflow" (#3).
+- Renamed the placeholder package `ds_project` to `medellin_rent` (#2).
+
+### Removed
+
+- `notebooks/`: analyses are reproducible scripts in `src/` run with `make`; CLAUDE.md convention, README, docs and tooling updated (#61).
+
+[Unreleased]: https://github.com/RafaGM1108/medellin-rent-predictor/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/RafaGM1108/medellin-rent-predictor/releases/tag/v1.0.0

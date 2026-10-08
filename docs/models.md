@@ -53,6 +53,16 @@ The 80% interval multiplies a prediction by the 10th and 90th percentiles of
 predicted 2,000,000 COP that is roughly 1,565,000 to 2,515,000 COP. It is stored in
 `model_metadata.json` and used by `make infer` and the API.
 
+## Current prices
+
+The model learns 2020-2021 rents. Predictions are brought to current prices with DANE's
+consumer price index for effective rent (subclass 04130100, national, base December
+2018 = 100): August 2021 = 105.37 and September 2026 = 139.61, a factor of **1.325**
+(`conf/rent_index.json`, written by `make prices`; update `params.rent_index.current_month`
+to move it forward). The factor applies to the whole city: rents in each comuna are assumed
+to have grown like the national rent index. Fuente: Departamento Administrativo Nacional de
+Estadística: www.dane.gov.co.
+
 ## What drives the predicted rent (SHAP, `make interpret`)
 
 Source files: `shap_importance.csv`/`.png`, `shap_by_comuna.csv`, `shap_by_estrato.csv`/`.png`

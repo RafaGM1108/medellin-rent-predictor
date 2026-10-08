@@ -131,6 +131,7 @@ make lint typecheck test     # check everything works
 |---------|--------------|
 | `make geo` | Download comuna, barrio and estrato layers into `data/01_raw/geo/` |
 | `make listings` | Check the manually downloaded listings file and record its checksum |
+| `make prices` | Download DANE's rent CPI and write `conf/rent_index.json` (adjustment to current prices) |
 | `make feature` / `make train` | Run the feature and training pipelines |
 | `make infer` | Price the listings in `data/01_raw/new_listings_sample.csv` (or any CSV in that format) into `data/07_model_output/predictions.csv` |
 | `make analysis` | Regenerate the analysis figures and tables in `data/08_reporting/` |
@@ -150,7 +151,8 @@ curl -X POST localhost:8000/predict -H 'content-type: application/json' \
 ```
 
 Only `comuna` is required (official name, see `/docs`); the response has the predicted
-monthly rent in COP, an 80% interval and a note that prices are from 2020-2021.
+monthly rent in COP at current prices (`prices_as_of`, adjusted with DANE's rent CPI), an
+80% interval, the adjustment applied and the prediction at 2020-2021 prices.
 
 Docker (API):
 

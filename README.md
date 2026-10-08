@@ -15,6 +15,10 @@ building age and amenities) and explains which of them drive the price. The mode
 through a FastAPI endpoint and a Streamlit app that answers one question: *is this listed
 rent fair?*
 
+![Median rent per m² by comuna](data/08_reporting/rent_map_comunas.png)
+
+*Median rent per m² by comuna, from `make analysis` (details in [docs/analysis.md](docs/analysis.md)). Boundaries: Alcaldía de Medellín (GeoMedellín), CC BY-SA 4.0.*
+
 ## Motivation
 
 I'm moving into an unfurnished apartment in Medellín and wanted to know whether listed rents

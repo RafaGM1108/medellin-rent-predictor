@@ -138,7 +138,7 @@ make lint typecheck test     # check everything works
 | `make interpret` | Explain the saved model with SHAP (figures and tables in `data/08_reporting/`) |
 | `uv run mlflow ui --backend-store-uri sqlite:///mlruns/mlflow.db` | Browse the training runs |
 | `make api` | FastAPI on http://localhost:8000 (docs at `/docs`) |
-| `make app` | Streamlit on http://localhost:8501 |
+| `make app` | Streamlit app "Is this rent fair?" on http://localhost:8501 (needs a trained model) |
 | `make coverage` | Tests with an HTML coverage report |
 | `make docs` | Serve the documentation locally |
 

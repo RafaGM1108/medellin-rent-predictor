@@ -1,6 +1,6 @@
 PACKAGE := medellin_rent
 
-.PHONY: help install lint typecheck test coverage geo listings feature train infer app api docs clean
+.PHONY: help install lint typecheck test coverage geo listings feature analysis train infer app api docs clean
 
 help:  ## Show this help
 	@grep -E '^[a-z]+:.*## ' $(MAKEFILE_LIST) | awk -F':.*## ' '{printf "  %-10s %s\n", $$1, $$2}'
@@ -31,6 +31,9 @@ listings:  ## Check the raw listings file and record its checksum
 
 feature:  ## Run the feature pipeline
 	uv run python -m $(PACKAGE).pipelines.feature_pipeline
+
+analysis:  ## Run the analyses (figures and tables in data/08_reporting)
+	uv run python -m $(PACKAGE).analysis
 
 train:  ## Run the training pipeline
 	uv run python -m $(PACKAGE).pipelines.training_pipeline

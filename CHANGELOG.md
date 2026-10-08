@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- LightGBM (with and without target-encoded barrio) tuned by random search on inner folds of the training set; `lightgbm_tuning.csv`; `params.lightgbm_tuning_iter`; `lightgbm` dependency (#28).
 - Ridge and Random Forest pipelines with area imputation by bedrooms fitted in the training folds; registry seeded from the config (#27).
 - `medellin_rent.model` (shared k-fold CV and COP metrics, comuna-median baseline, model registry) and the training pipeline: `make train` writes `model_comparison.{csv,json}` and `model_cv_folds.csv`; `params.cv_folds`; `scikit-learn` dependency (#26).
 - `docs/features.md`: feature dictionary with type, definition and source column of every feature and target (#25).

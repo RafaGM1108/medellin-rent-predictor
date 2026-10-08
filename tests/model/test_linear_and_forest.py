@@ -41,5 +41,5 @@ def test_models_beat_the_baseline_on_synthetic_data(model_input: pd.DataFrame) -
     assert forest < baseline
 
 
-def test_registry_names() -> None:
-    assert list(get_models(seed=1)) == ["baseline", "ridge", "random_forest"]
+def test_registry_starts_with_the_simple_models() -> None:
+    assert list(get_models(seed=1))[:3] == ["baseline", "ridge", "random_forest"]

@@ -82,3 +82,57 @@ area have a rent per m². Groups with fewer than 30 such listings stay in the CS
 - **In El Poblado the estrato matters little**: 24,833 (estrato 4), 26,667 (5) and
   27,424 (6) COP/m².
 - So a model should use both location and estrato, not one as a proxy for the other.
+
+## Hypothesis tests (`medellin_rent.analysis.hypothesis`)
+
+Source file: `hypothesis_tests.json`. Rents are right-skewed, so all tests are rank-based,
+and every p-value comes with an effect size. Bootstrap intervals use the project seed (42),
+so re-running gives the same numbers.
+
+**Assumptions.** Listings are treated as independent (duplicates were removed in cleaning,
+but one agency may still publish similar units). Mann-Whitney U tests whether one group
+tends to have higher values; it reads as a shift in medians only when the two distributions
+have similar shapes. Where several comparisons are made, p-values are Holm-adjusted.
+
+### Parking
+
+H0: monthly rent has the same distribution for listings that state they have parking and
+listings that state they have none. The 10,991 listings that do not mention parking are
+excluded: silence is not "no parking".
+
+| Group | With parking | Without | Median ratio (95% CI) | Rank-biserial r | p (Holm) |
+|-------|-------------:|--------:|----------------------:|----------------:|---------:|
+| All listings | 14,911 | 193 | 1.65 (1.58-1.77) | 0.68 | < 0.001 |
+| Estrato 3 | 1,356 | 49 | 1.10 (1.00-1.15) | 0.14 | 0.099 |
+| Estrato 4 | 2,622 | 62 | 1.32 (1.27-1.45) | 0.57 | < 0.001 |
+| Estrato 5 | 3,129 | 51 | 1.39 (1.29-1.50) | 0.63 | < 0.001 |
+
+- **Overall, listings with parking ask 65% more** (median 1.90M vs 1.15M COP).
+- **Part of that is the estrato**: parking is more common in higher estratos. Within estrato
+  3 the difference shrinks to 10% and is not significant; within estratos 4 and 5 it stays
+  large (32% and 39%).
+- **Limits.** The "without parking" group is small (49-62 per estrato) and comes from phrases
+  such as "sin parqueadero". The test uses total rent, not rent per m² (too few listings
+  without parking state their area), so parking also partly stands for larger apartments.
+  Estratos 1, 2 and 6 have fewer than 20 listings without parking and are not tested.
+
+### Estrato
+
+H0: rent per m² has the same distribution in every estrato (2-6; estrato 1 has fewer than
+30 listings with area). n = 7,321 listings with both area and estrato.
+
+- **Kruskal-Wallis rejects H0** (H = 1,640, p < 0.001) with a **large effect**:
+  epsilon² = 0.22.
+- **The trend is monotonic overall**: Spearman's rho = 0.46 (p < 0.001).
+- Adjacent estratos (ratio of median rent per m², higher / lower):
+
+| Step | Median ratio (95% CI) | Rank-biserial r | p (Holm) |
+|------|----------------------:|----------------:|---------:|
+| 2 → 3 | 0.95 (0.92-1.06) | -0.01 | 0.88 |
+| 3 → 4 | 1.24 (1.21-1.26) | 0.40 | < 0.001 |
+| 4 → 5 | 1.05 (1.03-1.07) | 0.12 | < 0.001 |
+| 5 → 6 | 1.24 (1.21-1.27) | 0.39 | < 0.001 |
+
+- **The price per m² does not climb evenly**: there are two big jumps (3 → 4 and 5 → 6,
+  about +24% each), a small one (4 → 5, +5%) and none between 2 and 3. Estrato is better
+  treated as a category than as a linear number in the model.

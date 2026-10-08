@@ -9,7 +9,7 @@ Full source survey, licenses and file profile: [`data/README.md`](https://github
 | Properati Colombia (`co_properties.csv`, Kaggle mirror of Properati Data) | Rental listings: price, text, rooms, bathrooms, area, coordinates, barrio | Unknown on Kaggle; original not verified | Manual download, then `make listings` |
 | GeoMedellín OD1043, Límite Catastral de Comunas y Corregimientos | Comuna boundaries | CC BY-SA 4.0, may not be "comercializada o transferida" | `make geo` |
 | GeoMedellín OD1044, Límite Catastral de Barrios y Veredas | Barrio boundaries and barrio → comuna | CC BY-SA 4.0, may not be "comercializada o transferida" | `make geo` |
-| GeoMedellín, Estrato Socioeconómico | Estrato by location | CC BY-SA 4.0, may not be "comercializada o transferida" | Planned for Phase 2 |
+| GeoMedellín OD396, Estrato Socioeconómico | Estrato by location | CC BY-SA 4.0, may not be "comercializada o transferida" | `make geo` |
 
 ## Collection process
 

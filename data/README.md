@@ -30,7 +30,7 @@ before it, by code in `src/`, so any layer can be rebuilt from `01_raw`.
 | [Properati Colombia](https://www.kaggle.com/datasets/lauramartinezortiz/colombian-properties) (Kaggle mirror of Properati Data) | Listings (`operation = Alquiler`, Medellín) | Unknown on Kaggle; original license being verified | Manual download; checksum and date in `listings.source.json` (`make listings`) | `co_properties.csv`, not committed |
 | [Límite Catastral de Comunas y Corregimientos](https://www.medellin.gov.co/geomedellin/datosAbiertos/1043) | Comuna boundaries (21 polygons) | CC BY-SA 4.0 + "no puede ser comercializada o transferida" | `make geo` (date in `comunas.source.json`) | EPSG:9377, reprojected to EPSG:4326 on load; not committed |
 | [Límite Catastral de Barrios y Veredas](https://www.medellin.gov.co/geomedellin/datosAbiertos/1044) | Barrio boundaries + barrio → comuna (349 polygons) | CC BY-SA 4.0 + "no puede ser comercializada o transferida" | `make geo` (date in `barrios.source.json`) | EPSG:9377, reprojected to EPSG:4326 on load; not committed |
-| [Estrato Socioeconómico](https://www.medellin.gov.co/geomedellin/datosAbiertos/396) | Estrato by location | CC BY-SA 4.0 + "no puede ser comercializada o transferida" | Planned for Phase 2 | Not committed; will be downloaded by code |
+| [Estrato Socioeconómico](https://www.medellin.gov.co/geomedellin/datosAbiertos/396) | Estrato by location | CC BY-SA 4.0 + "no puede ser comercializada o transferida" | `make geo` (date in `estrato.source.json`) | 32,384 polygons, EPSG:9377; not committed |
 
 ## Source survey (issue #7, checked 2026-10-05)
 
@@ -126,6 +126,15 @@ percentile 620,000-9,700,000 COP; median area 70 m²; median rent per m² 21,400
 | 4 | Bedrooms, bathrooms or parking above 10, floor above 50: set to NA | 12 / 1 / 0 / 10 values cleared |
 
 Result: **26,095 listings**, 21,112 with a comuna. The table passes `PrimarySchema`.
+
+### Estrato (`medellin_rent.geo.mapping.assign_estrato`, 2026-10-08)
+
+The estrato stated in the listing is kept (2,546 of 102,169 rows); otherwise it comes from
+the official estrato polygon that contains the coordinates (26,410 rows). Where both exist
+(1,201 primary listings), the layer matches the declared estrato exactly in 68.3% of cases
+and within one level in 95.8%. `estrato_source` records `listing` or `layer`.
+In `03_primary`, estrato coverage goes from 5.5% to **79.2%**; 20,460 listings have both a
+comuna and an estrato, 7,151 of them also an area.
 
 ### Open points
 

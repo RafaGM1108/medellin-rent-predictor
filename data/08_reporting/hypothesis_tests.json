@@ -1,0 +1,173 @@
+{
+  "parking": {
+    "hypothesis": "Rent is the same with and without parking (a = with, b = without)",
+    "test": "Mann-Whitney U, two-sided",
+    "measure": "rent_cop",
+    "excluded": "listings that do not mention parking",
+    "overall": {
+      "n_a": 14911,
+      "n_b": 193,
+      "median_a": 1900000.0,
+      "median_b": 1150000.0,
+      "median_ratio": 1.6521739130434783,
+      "median_ratio_ci95": [
+        1.5833333333333333,
+        1.7727272727272727
+      ],
+      "rank_biserial": 0.6791213358153021,
+      "u_statistic": 2416107.0,
+      "p_value": 2.6200644981087525e-59
+    },
+    "by_estrato": [
+      {
+        "estrato": 3,
+        "n_a": 1356,
+        "n_b": 49,
+        "median_a": 1100000.0,
+        "median_b": 1000000.0,
+        "median_ratio": 1.1,
+        "median_ratio_ci95": [
+          1.0,
+          1.15
+        ],
+        "rank_biserial": 0.13840226356029128,
+        "u_statistic": 37820.0,
+        "p_value": 0.09911685915188413,
+        "p_value_holm": 0.09911685915188413
+      },
+      {
+        "estrato": 4,
+        "n_a": 2622,
+        "n_b": 62,
+        "median_a": 1450000.0,
+        "median_b": 1100000.0,
+        "median_ratio": 1.3181818181818181,
+        "median_ratio_ci95": [
+          1.2726055194805195,
+          1.45
+        ],
+        "rank_biserial": 0.5710243350311262,
+        "u_statistic": 127696.0,
+        "p_value": 1.3326503461129325e-14,
+        "p_value_holm": 3.872261598486452e-14
+      },
+      {
+        "estrato": 5,
+        "n_a": 3129,
+        "n_b": 51,
+        "median_a": 1800000.0,
+        "median_b": 1300000.0,
+        "median_ratio": 1.3846153846153846,
+        "median_ratio_ci95": [
+          1.2857142857142858,
+          1.5
+        ],
+        "rank_biserial": 0.6278583021575521,
+        "u_statistic": 129886.0,
+        "p_value": 1.2907538661621505e-14,
+        "p_value_holm": 3.872261598486452e-14
+      }
+    ],
+    "min_n_per_group_by_estrato": 20
+  },
+  "estrato": {
+    "hypothesis": "Rent per m\u00b2 has the same distribution in every estrato",
+    "measure": "rent_per_m2",
+    "estratos": [
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "n": 7321,
+    "kruskal_wallis": {
+      "h_statistic": 1640.2924315362718,
+      "p_value": 0.0,
+      "epsilon_squared": 0.22408366551041964
+    },
+    "spearman": {
+      "rho": 0.4594083349990442,
+      "p_value": 0.0
+    },
+    "adjacent_pairs": [
+      {
+        "estratos": [
+          2,
+          3
+        ],
+        "n_a": 1259,
+        "n_b": 157,
+        "median_a": 16923.076923076922,
+        "median_b": 17741.935483870966,
+        "median_ratio": 0.9538461538461539,
+        "median_ratio_ci95": [
+          0.9179666666666667,
+          1.0623883159094425
+        ],
+        "rank_biserial": -0.0072750084740189624,
+        "u_statistic": 98112.5,
+        "p_value": 0.8817647209475366,
+        "p_value_holm": 0.8817647209475366
+      },
+      {
+        "estratos": [
+          3,
+          4
+        ],
+        "n_a": 1889,
+        "n_b": 1259,
+        "median_a": 20909.090909090908,
+        "median_b": 16923.076923076922,
+        "median_ratio": 1.2355371900826446,
+        "median_ratio_ci95": [
+          1.2083333333333333,
+          1.263157894736842
+        ],
+        "rank_biserial": 0.4017620511880369,
+        "u_statistic": 1666871.0,
+        "p_value": 1.560045453956265e-81,
+        "p_value_holm": 4.680136361868795e-81
+      },
+      {
+        "estratos": [
+          4,
+          5
+        ],
+        "n_a": 2217,
+        "n_b": 1889,
+        "median_a": 22000.0,
+        "median_b": 20909.090909090908,
+        "median_ratio": 1.0521739130434784,
+        "median_ratio_ci95": [
+          1.0334928229665072,
+          1.0730785123966942
+        ],
+        "rank_biserial": 0.12243807357029612,
+        "u_statistic": 2350336.5,
+        "p_value": 1.2663307046746992e-11,
+        "p_value_holm": 2.5326614093493984e-11
+      },
+      {
+        "estratos": [
+          5,
+          6
+        ],
+        "n_a": 1799,
+        "n_b": 2217,
+        "median_a": 27173.91304347826,
+        "median_b": 22000.0,
+        "median_ratio": 1.2351778656126482,
+        "median_ratio_ci95": [
+          1.2089552238805972,
+          1.2659340659340659
+        ],
+        "rank_biserial": 0.39185454355812865,
+        "u_statistic": 2775624.5,
+        "p_value": 1.7711279317804448e-101,
+        "p_value_holm": 7.084511727121779e-101
+      }
+    ],
+    "pairs_note": "a = higher estrato, b = lower estrato"
+  }
+}

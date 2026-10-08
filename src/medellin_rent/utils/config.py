@@ -62,7 +62,7 @@ def find_config_file(start: Path | None = None) -> Path:
 
     Uses ``$MEDELLIN_RENT_CONF`` if set; otherwise walks up from ``start`` (default: the
     current directory) until it finds ``conf/base.yaml``. This works from the project
-    root, from ``notebooks/<stage>/`` and inside the Docker image.
+    root, from any subdirectory and inside the Docker image.
 
     Args:
         start: Directory to start searching from.

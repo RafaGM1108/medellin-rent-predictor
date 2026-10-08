@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Removed
+
+- `notebooks/`: analyses are reproducible scripts in `src/` run with `make`; CLAUDE.md convention, README, docs and tooling updated (#61).
+
 ### Changed
 
 - Issue forms apply `type:feat` and `type:bug`, the labels used in this repo (#47).

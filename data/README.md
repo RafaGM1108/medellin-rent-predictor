@@ -19,7 +19,8 @@ before it, by code in `src/`, so any layer can be rebuilt from `01_raw`.
 - `01_raw` is read-only. If raw data is wrong, fix it in `02_intermediate`.
 - Paths are set in `conf/base.yaml`. Code never hard-codes them.
 - Only small, redistributable samples (`*_sample.*`) and `08_reporting/` are committed.
-  Everything else is ignored by git.
+  Everything else is ignored by git. No current source allows a sample, so none is
+  committed; tests use a synthetic fixture instead.
 - Each source's origin, license and download date is recorded below.
 
 ## Sources
@@ -29,7 +30,7 @@ before it, by code in `src/`, so any layer can be rebuilt from `01_raw`.
 | [Properati Colombia](https://www.kaggle.com/datasets/lauramartinezortiz/colombian-properties) (Kaggle mirror of Properati Data) | Listings (`operation = Alquiler`, Medellín) | Unknown on Kaggle; original license being verified | Manual download; checksum and date in `listings.source.json` (`make listings`) | `co_properties.csv`, not committed |
 | [Límite Catastral de Comunas y Corregimientos](https://www.medellin.gov.co/geomedellin/datosAbiertos/1043) | Comuna boundaries (21 polygons) | CC BY-SA 4.0 + "no puede ser comercializada o transferida" | `make geo` (date in `comunas.source.json`) | EPSG:9377, reprojected to EPSG:4326 on load; not committed |
 | [Límite Catastral de Barrios y Veredas](https://www.medellin.gov.co/geomedellin/datosAbiertos/1044) | Barrio boundaries + barrio → comuna (349 polygons) | CC BY-SA 4.0 + "no puede ser comercializada o transferida" | `make geo` (date in `barrios.source.json`) | EPSG:9377, reprojected to EPSG:4326 on load; not committed |
-| [Estrato Socioeconómico](https://www.medellin.gov.co/geomedellin/datosAbiertos/396) | Estrato by location | CC BY-SA 4.0 + "no puede ser comercializada o transferida" | TODO | Not committed; downloaded by code |
+| [Estrato Socioeconómico](https://www.medellin.gov.co/geomedellin/datosAbiertos/396) | Estrato by location | CC BY-SA 4.0 + "no puede ser comercializada o transferida" | Planned for Phase 2 | Not committed; will be downloaded by code |
 
 ## Source survey (issue #7, checked 2026-10-05)
 

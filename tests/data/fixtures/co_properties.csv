@@ -1,0 +1,9 @@
+id,ad_type,start_date,end_date,created_on,lat,lon,l1,l2,l3,l4,l5,l6,rooms,bedrooms,bathrooms,surface_total,surface_covered,price,currency,price_period,title,description,property_type,operation_type
+fx1,Propiedad,2021-01-10,2021-02-10,2021-01-10,6.2086,-75.5659,Colombia,Antioquia,Medellín,El Poblado,"","",,3,2,,,2500000,COP,Mensual,Apartamento en arriendo en El Poblado,"Apartamento con 3 alcobas, 2 ba&ntilde;os y parqueadero.<br />
+Valor $2.500.000. Ref SimiCRM62214300 622-14300.
+Informes: +57 312-456-7890",Apartamento,Arriendo
+fx2,Propiedad,2021-01-11,,2021-01-11,"","",Colombia,Antioquia,Medellín,"","","",,,1,,,1150000,COP,,Apartamento en Robledo,"80 m2, estrato 3. Escribir a contacto.inmo@example.co o llamar al 3001234567",Apartamento,Arriendo
+fx3,Propiedad,2021-01-12,,2021-01-12,6.25,-75.6,Colombia,Antioquia,Medellín,Laureles,"","",,2,2,70,70,450000000,COP,,Apartamento en venta,"Venta",Apartamento,Venta
+fx4,Propiedad,2021-01-12,,2021-01-12,4.65,-74.05,Colombia,Cundinamarca,Bogotá D.C,Chapinero,"","",,2,1,,,1800000,COP,Mensual,Apartamento en Chapinero,"Bogotá",Apartamento,Arriendo
+fx5,Propiedad,2021-01-13,,2021-01-13,6.2,-75.57,Colombia,Antioquia,Medellín,"","","",,,,,,900,USD,Mensual,Apartment for rent,"USD price",Apartamento,Arriendo
+fx6,Propiedad,2021-01-13,,2021-01-13,6.24,-75.58,Colombia,Antioquia,Medellín,Belén,"","",,,,,,1300000,COP,,Casa en Belén,"Casa",Casa,Arriendo

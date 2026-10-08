@@ -100,6 +100,19 @@ area 23.5%, bedrooms 80.4%, bathrooms 98.7%, parking mentioned 55.8% (number of 
 4.5%), floor 2.6%, estrato 2.5%, building age ~0%, coordinates 28.2%, barrio 28.6%.
 `title` and `description` are not in this table.
 
+### Location mapping (`medellin_rent.geo.mapping`, 2026-10-08)
+
+- Properati's `l4` (`barrio_raw`) is the **comuna**, not the barrio: its 21 values are exactly
+  Medellín's 16 comunas and 5 corregimientos. All 21 match the official names after
+  normalization (accents, case, leading article: "Candelaria" = "LA CANDELARIA").
+- The barrio comes only from the coordinates (point in polygon on the barrios layer). If the
+  coordinates fall in a different comuna than the declared one, the declared comuna is kept
+  and the barrio is left empty.
+- On the 102,169 intermediate rows: comuna from the name 29,262, from coordinates only 11,
+  none 72,896; barrio 28,349; name/coordinate conflicts 220.
+- Most rows without a location are re-published duplicates: among the 26,116 distinct
+  listings (same text and rent), 81% have a location.
+
 ### Open points
 
 - Verify the license of the original Properati Colombia data before downloading it.

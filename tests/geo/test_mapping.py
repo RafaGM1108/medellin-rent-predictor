@@ -92,3 +92,18 @@ def test_assign_location_logs_unmatched_names(caplog: pytest.LogCaptureFixture) 
 
     assert out["comuna_code"].isna().all()
     assert "Narnia" in caplog.text
+
+
+def test_point_in_overlapping_barrios_gets_one_barrio() -> None:
+    # Official polygons can overlap slightly at shared borders; a point there matches twice.
+    barrios = _barrios()
+    barrios.loc[1, "geometry"] = box(-75.59, 6.24, -75.56, 6.26)  # overlaps barrio 0
+    out = assign_location(_listings([(6.25, -75.585, None)]), barrios)
+    assert len(out) == 1
+    assert out["barrio_name"].iloc[0] in {"Laureles", "Patio Bonito"}
+
+
+def test_empty_listings() -> None:
+    out = assign_location(_listings([]), _barrios())
+    assert out.empty
+    assert {"barrio_name", "comuna_code", "comuna_name"} <= set(out.columns)

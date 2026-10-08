@@ -93,6 +93,13 @@ permission. Phase 1 therefore builds a **loader for a public dataset** (issue #8
   also contains agent names, so `title` and `description` stay in git-ignored layers and are
   dropped once features are extracted (#12).
 
+### Intermediate table (`02_intermediate/listings.parquet`, `make feature`, 2026-10-08)
+
+Structured value first, then the listing text. Share of the 102,169 rows with a value:
+area 23.5%, bedrooms 80.4%, bathrooms 98.7%, parking mentioned 55.8% (number of spots
+4.5%), floor 2.6%, estrato 2.5%, building age ~0%, coordinates 28.2%, barrio 28.6%.
+`title` and `description` are not in this table.
+
 ### Open points
 
 - Verify the license of the original Properati Colombia data before downloading it.

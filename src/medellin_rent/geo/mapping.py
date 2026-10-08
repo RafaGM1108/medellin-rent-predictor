@@ -1,4 +1,4 @@
-"""Assign each listing its barrio and comuna.
+"""Assign each listing its barrio, comuna and estrato.
 
 In the Properati file ``l4`` (``barrio_raw``) holds the **comuna** name (its 21 values are
 Medellín's comunas and corregimientos), so it is matched by normalized name against the
@@ -92,4 +92,42 @@ def assign_location(listings: pd.DataFrame, barrios: gpd.GeoDataFrame) -> pd.Dat
     )
     if not unknown_names.empty:
         logger.warning("Unmatched comuna names: %s", unknown_names.to_dict())
+    return out
+
+
+def assign_estrato(listings: pd.DataFrame, estrato: gpd.GeoDataFrame) -> pd.DataFrame:
+    """Fill ``estrato`` from the official estrato layer and record where it came from.
+
+    The estrato stated in the listing is kept; otherwise it is taken from the layer polygon
+    that contains the listing's coordinates.
+
+    Args:
+        listings: Listings with ``lat``, ``lon`` and ``estrato``.
+        estrato: Estrato layer from :func:`medellin_rent.geo.boundaries.load_layer`.
+
+    Returns:
+        A copy with ``estrato`` filled and ``estrato_source`` (``listing``, ``layer`` or NA).
+    """
+    has_point = listings["lat"].notna() & listings["lon"].notna()
+    points = gpd.GeoDataFrame(
+        geometry=gpd.points_from_xy(listings.loc[has_point, "lon"], listings.loc[has_point, "lat"]),
+        index=listings.index[has_point],
+        crs=TARGET_CRS,
+    )
+    joined = gpd.sjoin(points, estrato[["estrato", "geometry"]], predicate="within")
+    from_layer = joined.loc[~joined.index.duplicated(), "estrato"].reindex(listings.index)
+
+    out = listings.copy()
+    declared = listings["estrato"].notna()
+    out["estrato"] = listings["estrato"].fillna(from_layer.astype("Int64"))
+    out["estrato_source"] = pd.Series(pd.NA, index=listings.index, dtype="str")
+    out.loc[declared, "estrato_source"] = "listing"
+    out.loc[~declared & out["estrato"].notna(), "estrato_source"] = "layer"
+    logger.info(
+        "Estrato: from listing %d, from layer %d, unknown %d of %d",
+        declared.sum(),
+        (out["estrato_source"] == "layer").sum(),
+        out["estrato"].isna().sum(),
+        len(out),
+    )
     return out

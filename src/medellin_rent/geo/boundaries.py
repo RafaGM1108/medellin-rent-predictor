@@ -1,4 +1,4 @@
-"""Download and load Medellín's official comuna and barrio boundaries.
+"""Download and load Medellín's official comuna, barrio and estrato layers.
 
 Source: GeoMedellín open data (Alcaldía de Medellín), license CC BY-SA 4.0 with the extra
 condition that the data "no puede ser comercializada o transferida". The files are
@@ -23,7 +23,7 @@ from medellin_rent.utils.log import get_logger
 
 logger = get_logger(__name__)
 
-LayerName = Literal["comunas", "barrios"]
+LayerName = Literal["comunas", "barrios", "estrato"]
 
 USER_AGENT = "medellin-rent-predictor/0.1 (+https://github.com/RafaGM1108/medellin-rent-predictor)"
 TARGET_CRS = "EPSG:4326"
@@ -57,6 +57,11 @@ LAYERS: dict[LayerName, Layer] = {
             "nombre_comuna": "comuna_name",
             "indicador_ur": "area_type",
         },
+    ),
+    "estrato": Layer(
+        url=f"{_BASE_URL}/OD396/geojson_estrato_socioeconomico.zip",
+        page="https://www.medellin.gov.co/geomedellin/datosAbiertos/396",
+        columns={"estrato": "estrato"},
     ),
 }
 

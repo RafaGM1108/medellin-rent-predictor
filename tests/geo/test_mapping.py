@@ -5,7 +5,7 @@ import pandas as pd
 import pytest
 from shapely.geometry import box
 
-from medellin_rent.geo.mapping import assign_location, normalize_name
+from medellin_rent.geo.mapping import assign_estrato, assign_location, normalize_name
 
 
 def _barrios() -> gpd.GeoDataFrame:
@@ -107,3 +107,27 @@ def test_empty_listings() -> None:
     out = assign_location(_listings([]), _barrios())
     assert out.empty
     assert {"barrio_name", "comuna_code", "comuna_name"} <= set(out.columns)
+
+
+def test_assign_estrato_keeps_declared_and_fills_from_layer() -> None:
+    layer = gpd.GeoDataFrame(
+        {"estrato": [5, 2]},
+        geometry=[box(-75.60, 6.24, -75.58, 6.26), box(-75.58, 6.20, -75.56, 6.22)],
+        crs="EPSG:4326",
+    )
+    listings = _listings(
+        [
+            (6.25, -75.59, None),  # declared 3, inside the estrato 5 polygon -> keeps 3
+            (6.21, -75.57, None),  # no declared value, inside estrato 2 -> 2
+            (None, None, None),  # no coordinates -> unknown
+            (7.00, -75.00, None),  # outside the layer -> unknown
+        ]
+    ).assign(estrato=pd.array([3, pd.NA, pd.NA, pd.NA], dtype="Int64"))
+
+    out = assign_estrato(listings, layer)
+
+    assert out["estrato"].tolist()[:2] == [3, 2]
+    assert out["estrato"].iloc[2:].isna().all()
+    assert out["estrato"].dtype == "Int64"
+    assert out["estrato_source"].tolist()[:2] == ["listing", "layer"]
+    assert out["estrato_source"].iloc[2:].isna().all()

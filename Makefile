@@ -23,7 +23,7 @@ test:  ## Run the test suite
 coverage:  ## Run tests with a coverage report (terminal + htmlcov/)
 	uv run pytest --cov --cov-report=term --cov-report=html
 
-geo:  ## Download comuna and barrio boundaries into data/01_raw/geo
+geo:  ## Download comuna, barrio and estrato layers into data/01_raw/geo
 	uv run python -m $(PACKAGE).geo
 
 listings:  ## Check the raw listings file and record its checksum

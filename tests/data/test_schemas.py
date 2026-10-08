@@ -27,6 +27,7 @@ def _primary(n: int = 2) -> pd.DataFrame:
     df["barrio_name"] = pd.Series(["Laureles"] * n, dtype="str")
     df["comuna_code"] = pd.Series(["11"] * n, dtype="str")
     df["comuna_name"] = pd.Series(["LAURELES ESTADIO"] * n, dtype="str")
+    df["estrato_source"] = pd.Series(["listing"] * n, dtype="str")
     return df
 
 
@@ -83,3 +84,10 @@ def test_primary_rejects_duplicate_listings() -> None:
 def test_primary_requires_comuna_columns() -> None:
     with pytest.raises(pe.SchemaErrors, match="comuna_code"):
         PrimarySchema.validate(_intermediate(), lazy=True)
+
+
+def test_primary_rejects_unknown_estrato_source() -> None:
+    df = _primary()
+    df["estrato_source"] = pd.Series(["guess", "listing"], dtype="str")
+    with pytest.raises(pe.SchemaErrors, match="estrato_source"):
+        PrimarySchema.validate(df, lazy=True)

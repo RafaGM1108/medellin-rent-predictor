@@ -48,6 +48,7 @@ PrimarySchema = (
             "barrio_name": pa.Column(str, nullable=True),
             "comuna_code": pa.Column(str, nullable=True),
             "comuna_name": pa.Column(str, nullable=True),
+            "estrato_source": pa.Column(str, pa.Check.isin(["listing", "layer"]), nullable=True),
         }
     )
     .update_columns(

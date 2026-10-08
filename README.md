@@ -73,7 +73,6 @@ from a file in [`data/08_reporting/`](data/08_reporting/).
 │   ├── 02_intermediate/ … 07_model_output/
 │   └── 08_reporting/       # Metrics (JSON/CSV) and figures (PNG) behind the Results
 ├── docs/                   # MkDocs Material site
-├── notebooks/              # Numbered by stage (1-data … 8-reports), see notebooks/README.md
 ├── src/medellin_rent/
 │   ├── data/               # Listings acquisition (scraper or loader) and cleaning
 │   ├── geo/                # Boundaries loading and barrio → comuna mapping
@@ -105,8 +104,11 @@ adapted to the two kinds of data this project combines:
 - **`src/medellin_rent/data/`** holds the listings acquisition module (scraper or loader,
   decided in Phase 1 after checking robots.txt and terms of use) and the cleaning code.
 
-Everything else follows the template: the layered data folders, staged notebooks and FTI
-pipelines.
+- **No notebooks.** The template's `notebooks/` folder was removed: every analysis is a
+  script in `src/` run with `make`, so figures and tables in `data/08_reporting/` can be
+  regenerated from the data at any time.
+
+Everything else follows the template: the layered data folders and FTI pipelines.
 
 ## Quickstart
 

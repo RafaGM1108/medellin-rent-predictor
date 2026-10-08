@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `medellin_rent.model` (shared k-fold CV and COP metrics, comuna-median baseline, model registry) and the training pipeline: `make train` writes `model_comparison.{csv,json}` and `model_cv_folds.csv`; `params.cv_folds`; `scikit-learn` dependency (#26).
 - `docs/features.md`: feature dictionary with type, definition and source column of every feature and target (#25).
 - Edge-case tests for features and model input: empty input, no listing with a comuna, duplicate listing ids (#24).
 - Feature pipeline writes `04_feature/features.parquet` and `05_model_input/{train,test}.parquet` (listings with a comuna, `rent_cop` and `log_rent`, split with `params.test_size` and the project seed) (#23).

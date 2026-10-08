@@ -133,6 +133,7 @@ make lint typecheck test     # check everything works
 | `make listings` | Check the manually downloaded listings file and record its checksum |
 | `make feature` / `make train` / `make infer` | Run the pipelines |
 | `make analysis` | Regenerate the analysis figures and tables in `data/08_reporting/` |
+| `make interpret` | Explain the saved model with SHAP (figures and tables in `data/08_reporting/`) |
 | `uv run mlflow ui --backend-store-uri sqlite:///mlruns/mlflow.db` | Browse the training runs |
 | `make api` | FastAPI on http://localhost:8000 (docs at `/docs`) |
 | `make app` | Streamlit on http://localhost:8501 |

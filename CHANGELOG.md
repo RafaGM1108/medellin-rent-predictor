@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `medellin_rent.analysis.interpret` and `make interpret`: SHAP values of the saved LightGBM model on the test set (LightGBM TreeSHAP), importance and effects by comuna, estrato and area, with conclusions in `docs/models.md` (#30).
 - Training pipeline selects the best model by CV MAE, refits it, scores it once on the test set (`test_metrics.json`) and saves it to `06_models` with metadata; every model is an MLflow run in a local SQLite store (`paths.mlruns`); `docs/models.md`; `mlflow` dependency (#29).
 - LightGBM (with and without target-encoded barrio) tuned by random search on inner folds of the training set; `lightgbm_tuning.csv`; `params.lightgbm_tuning_iter`; `lightgbm` dependency (#28).
 - Ridge and Random Forest pipelines with area imputation by bedrooms fitted in the training folds; registry seeded from the config (#27).

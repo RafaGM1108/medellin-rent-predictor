@@ -62,3 +62,37 @@ def test_rule4_clears_counts_and_floors_above_limits() -> None:
     assert out["bathrooms"].isna().tolist() == [False, True]
     assert out["floor"].isna().tolist() == [True, True]
     assert out["parking_spots"].tolist() == [1, 1]
+
+
+def test_thresholds_are_inclusive() -> None:
+    # 20 m2 at 1.6M = 80,000 COP/m2 and 1,000 m2 at 5M = 5,000 COP/m2: both at the edges.
+    out = clean_listings(
+        _listings(
+            area_m2=[20.0, 1_000.0],
+            rent_cop=[1_600_000.0, 5_000_000.0],
+            bedrooms=pd.array([10, 10], dtype="Int64"),
+            floor=pd.array([50, 50], dtype="Int64"),
+        )
+    )
+    assert out["area_m2"].tolist() == [20.0, 1_000.0]
+    assert out["bedrooms"].tolist() == [10, 10]
+    assert out["floor"].tolist() == [50, 50]
+
+
+def test_missing_values_pass_through() -> None:
+    out = clean_listings(
+        _listings(
+            area_m2=[float("nan")],
+            bedrooms=pd.array([pd.NA], dtype="Int64"),
+            floor=pd.array([pd.NA], dtype="Int64"),
+        )
+    )
+    assert len(out) == 1
+    assert out[["area_m2", "bedrooms", "floor"]].isna().all(axis=None)
+
+
+def test_empty_input_returns_empty_frame() -> None:
+    df = _listings(rent_cop=[1.0]).iloc[:0]
+    out = clean_listings(df)
+    assert out.empty
+    assert list(out.columns) == list(df.columns)

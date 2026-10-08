@@ -43,15 +43,15 @@ def _write_geo(directory: Path) -> None:
     ).to_crs("EPSG:9377").to_file(directory / "estrato.geojson", driver="GeoJSON")
 
 
-def test_run_writes_intermediate_and_primary(tmp_path: Path) -> None:
+def test_run_writes_every_layer(tmp_path: Path) -> None:
     config = _config(tmp_path)
     _write_geo(config.paths.raw_geo)
 
     out = run(config)
 
     intermediate = pd.read_parquet(config.paths.intermediate / "listings.parquet")
-    primary = pd.read_parquet(out)
-    assert out == config.paths.primary / "listings.parquet"
+    primary = pd.read_parquet(config.paths.primary / "listings.parquet")
+    assert out == config.paths.model_input
     assert intermediate["listing_id"].tolist() == ["fx1", "fx2"]
     assert primary["listing_id"].tolist() == ["fx1", "fx2"]
     assert primary["comuna_name"].tolist()[0] == "EL POBLADO"
@@ -60,6 +60,15 @@ def test_run_writes_intermediate_and_primary(tmp_path: Path) -> None:
     assert primary["estrato"].tolist() == [6, 3]  # fx1 from the layer, fx2 declared in text
     assert primary["estrato_source"].tolist() == ["layer", "listing"]
     assert "description" not in primary.columns
+
+    features = pd.read_parquet(config.paths.feature / "features.parquet")
+    train = pd.read_parquet(out / "train.parquet")
+    test = pd.read_parquet(out / "test.parquet")
+    assert features["listing_id"].tolist() == ["fx1", "fx2"]
+    # Only fx1 has a comuna; with test_size 0.2 one listing rounds to 0 test rows.
+    assert train["listing_id"].tolist() == ["fx1"]
+    assert test.empty
+    assert train["comuna_code"].cat.categories.tolist()[:2] == ["01", "02"]
 
 
 def test_run_asks_for_the_boundaries_first(tmp_path: Path) -> None:

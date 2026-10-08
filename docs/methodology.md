@@ -9,7 +9,7 @@ Data flows `01_raw → 02_intermediate → 03_primary → 04_feature → 05_mode
 
 | Pipeline | Command | Reads | Writes |
 |----------|---------|-------|--------|
-| Feature | `make feature` | `01_raw` | `05_model_input` |
+| Feature | `make feature` | `01_raw` | `02_intermediate`, `03_primary`, `04_feature/features.parquet`, `05_model_input/{train,test}.parquet` |
 | Training | `make train` | `05_model_input` | `06_models`, `08_reporting` |
 | Inference | `make infer` | `06_models` + new data | `07_model_output` |
 

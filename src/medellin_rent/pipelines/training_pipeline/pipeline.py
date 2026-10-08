@@ -6,7 +6,7 @@ from pathlib import Path
 import pandas as pd
 
 from medellin_rent.model.evaluate import cross_validate, folds, summarize
-from medellin_rent.model.registry import MODELS
+from medellin_rent.model.registry import get_models
 from medellin_rent.pipelines.feature_pipeline.pipeline import TRAIN_FILE
 from medellin_rent.utils.config import Config, get_config
 from medellin_rent.utils.log import get_logger
@@ -20,7 +20,7 @@ def run(config: Config | None = None, models: list[str] | None = None) -> Path:
 
     Args:
         config: Project configuration. Loaded from ``conf/base.yaml`` if omitted.
-        models: Names from ``MODELS`` to run (all by default).
+        models: Names from :func:`get_models` to run (all by default).
 
     Returns:
         Path to the comparison table in ``08_reporting``.
@@ -30,9 +30,10 @@ def run(config: Config | None = None, models: list[str] | None = None) -> Path:
     train = pd.read_parquet(config.paths.model_input / TRAIN_FILE)
     splits = folds(len(train), int(config.params["cv_folds"]), config.project.random_seed)
 
+    factories = get_models(config.project.random_seed)
     per_fold, summary = [], []
-    for name in models or list(MODELS):
-        cv = cross_validate(MODELS[name], train, splits).assign(model=name)
+    for name in models or list(factories):
+        cv = cross_validate(factories[name], train, splits).assign(model=name)
         per_fold.append(cv)
         summary.append({"model": name, **summarize(cv)})
         logger.info("%s: CV MAE %.0f COP, MAPE %.1f%%", name, cv["mae"].mean(), cv["mape"].mean())

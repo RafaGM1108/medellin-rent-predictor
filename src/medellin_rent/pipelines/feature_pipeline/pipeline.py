@@ -4,6 +4,7 @@ from pathlib import Path
 
 from medellin_rent.data.listings import RAW_FILE, load_listings
 from medellin_rent.data.parse import parse_listings
+from medellin_rent.data.schemas import IntermediateSchema
 from medellin_rent.utils.config import Config, get_config
 from medellin_rent.utils.log import get_logger
 
@@ -25,6 +26,7 @@ def run(config: Config | None = None) -> Path:
     logger = get_logger(__name__, config.logging.level)
 
     listings = parse_listings(load_listings(config.paths.raw_listings / RAW_FILE))
+    IntermediateSchema.validate(listings, lazy=True)
     config.paths.intermediate.mkdir(parents=True, exist_ok=True)
     out = config.paths.intermediate / INTERMEDIATE_FILE
     listings.to_parquet(out, index=False)

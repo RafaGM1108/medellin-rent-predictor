@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `medellin_rent.analysis.price_m2`: rent per m² by comuna, by estrato and by both (CSV + PNG in `data/08_reporting/`), with conclusions in `docs/analysis.md` (#18).
 - `medellin_rent.analysis` and `make analysis`: EDA tables and figures in `data/08_reporting/` (distributions, data quality) and `docs/analysis.md`; `matplotlib` dependency (#17).
 - Estrato from the official GeoMedellín estrato layer for listings with coordinates (`assign_estrato`, `estrato_source`); `make geo` downloads the layer (#59).
 - Edge-case tests for cleaning (inclusive thresholds, missing values, empty input) and location mapping (overlapping polygons, empty input) (#16).

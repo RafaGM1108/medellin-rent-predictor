@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Author name is Rafael E. Garcia in LICENSE, pyproject.toml and mkdocs.yml (#90).
+
 ### Added
 
 - Link to the live app on Streamlit Community Cloud in the README and docs (#37).

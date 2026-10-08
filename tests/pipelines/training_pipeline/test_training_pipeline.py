@@ -85,8 +85,11 @@ def test_run_end_to_end_with_lightgbm_tuning(tmp_path: Path, model_input: pd.Dat
                 assert model[f"{metric}_{stat}"] >= 0
 
     test_metrics = json.loads((reporting / "test_metrics.json").read_text())
-    assert set(test_metrics) == {"model", "n_test", "mae", "rmse", "mape"}
+    assert set(test_metrics) == {"model", "n_test", "mae", "rmse", "mape", "interval"}
+    interval = test_metrics["interval"]
+    assert interval["level"] == 0.8
+    assert 0 < interval["low_factor"] < 1 < interval["high_factor"]
     assert test_metrics["model"] in names
     metadata = json.loads((config.paths.models / "model_metadata.json").read_text())
     expected = {"model", "trained_at", "n_train", "features", "target", "lightgbm_params"}
-    assert expected | {"cv", "test", "data_period"} == set(metadata)
+    assert expected | {"cv", "test", "interval", "data_period"} == set(metadata)

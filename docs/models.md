@@ -46,6 +46,13 @@ subsample 1.0, colsample_bytree 0.8, reg_lambda 0), 4,222 held-out listings:
   configuration sits at the edge of the search space for `num_leaves` and `learning_rate`.
   Prices are from 2020-2021 (see #67).
 
+## Prediction interval
+
+The 80% interval multiplies a prediction by the 10th and 90th percentiles of
+`actual / predicted` rent on the test set: **0.78 to 1.26** (`test_metrics.json`). For a
+predicted 2,000,000 COP that is roughly 1,565,000 to 2,515,000 COP. It is stored in
+`model_metadata.json` and used by `make infer` and the API.
+
 ## What drives the predicted rent (SHAP, `make interpret`)
 
 Source files: `shap_importance.csv`/`.png`, `shap_by_comuna.csv`, `shap_by_estrato.csv`/`.png`

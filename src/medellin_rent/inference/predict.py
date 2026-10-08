@@ -18,11 +18,18 @@ import numpy as np
 import pandas as pd
 import pandera.pandas as pa
 
-from medellin_rent.features.build import AMENITIES, COMUNA_NAMES, PARKING, build_features
+from medellin_rent.features.build import (
+    AMENITIES,
+    COMUNA_NAMES,
+    PARKING,
+    UNKNOWN,
+    build_features,
+)
 from medellin_rent.model.evaluate import predict_rent
 
 PRICE_REFERENCE_DATE = pd.Timestamp("2021-08-19")  # last listing date in the training data
 _CODES_BY_NAME = {name: code for code, name in COMUNA_NAMES.items()}
+OPTIONAL = ["estrato", "area_m2", "bedrooms", "bathrooms", "lat", "lon"]
 
 NewListingSchema = pa.DataFrameSchema(
     {
@@ -46,16 +53,19 @@ def to_features(listings: pd.DataFrame) -> pd.DataFrame:
     """Validate new listings and build the model's features for them.
 
     Args:
-        listings: One row per listing with the columns of ``NewListingSchema``
-            (missing amenity columns default to ``False``).
+        listings: One row per listing with the columns of ``NewListingSchema``. Only
+            ``comuna`` is required: missing optional columns mean "unknown", a missing
+            ``parking`` is ``unknown`` and missing amenities are ``False``.
 
     Returns:
         Feature table in the training format.
     """
     df = listings.copy()
-    for amenity in AMENITIES:
-        if amenity not in df:
-            df[amenity] = False
+    defaults: dict[str, bool | str | None] = dict.fromkeys(OPTIONAL) | {"parking": UNKNOWN}
+    defaults |= dict.fromkeys(AMENITIES, False)
+    for column, value in defaults.items():
+        if column not in df:
+            df[column] = value
     df = NewListingSchema.validate(df, lazy=True)
     primary_like = pd.DataFrame(
         {

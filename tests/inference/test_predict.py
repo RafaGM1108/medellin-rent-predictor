@@ -73,3 +73,11 @@ def test_predict_without_interval(saved_model: Path) -> None:
     model, _ = load_model(saved_model)
     out = predict(model, {"model": "x"}, _listing())
     assert out.columns.tolist() == ["predicted_rent_cop"]
+
+
+def test_only_the_comuna_is_required() -> None:
+    row = to_features(pd.DataFrame([{"comuna": "BELEN"}])).iloc[0]
+    assert row["comuna_code"] == "16"
+    assert row["estrato"] == "unknown"
+    assert row["parking"] == "unknown"
+    assert row["area_missing"]

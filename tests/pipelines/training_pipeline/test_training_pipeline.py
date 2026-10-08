@@ -49,3 +49,44 @@ def test_run_compares_selects_saves_and_tracks(tmp_path: Path, model_input: pd.D
     runs = mlflow.search_runs(experiment_names=["medellin-rent-predictor"])
     assert sorted(runs["tags.mlflow.runName"]) == sorted(["baseline", "ridge", f"{best} (final)"])
     assert (config.paths.mlruns / "mlflow.db").is_file()
+
+
+def test_run_end_to_end_with_lightgbm_tuning(tmp_path: Path, model_input: pd.DataFrame) -> None:
+    config = _config(tmp_path, model_input)
+    config = config.model_copy(
+        update={"params": {**config.params, "cv_folds": 3, "lightgbm_tuning_iter": 2}}
+    )
+    reporting = config.paths.reporting
+
+    run(config)  # every registered model, with tuning
+
+    tuning = pd.read_csv(reporting / "lightgbm_tuning.csv")
+    assert len(tuning) == 2
+    assert {"num_leaves", "learning_rate", "mae", "mape"} <= set(tuning.columns)
+
+    comparison = json.loads((reporting / "model_comparison.json").read_text())
+    assert set(comparison) == {"n_train", "cv_folds", "lightgbm_params", "models"}
+    assert (comparison["n_train"], comparison["cv_folds"]) == (160, 3)
+    assert set(comparison["lightgbm_params"]) == {
+        "num_leaves",
+        "learning_rate",
+        "n_estimators",
+        "min_child_samples",
+        "subsample",
+        "colsample_bytree",
+        "reg_lambda",
+    }
+    names = [m["model"] for m in comparison["models"]]
+    assert names == ["baseline", "ridge", "random_forest", "lightgbm", "lightgbm_barrio"]
+    for model in comparison["models"]:
+        for metric in ("mae", "rmse", "mape"):
+            for stat in ("mean", "std"):
+                assert isinstance(model[f"{metric}_{stat}"], float)
+                assert model[f"{metric}_{stat}"] >= 0
+
+    test_metrics = json.loads((reporting / "test_metrics.json").read_text())
+    assert set(test_metrics) == {"model", "n_test", "mae", "rmse", "mape"}
+    assert test_metrics["model"] in names
+    metadata = json.loads((config.paths.models / "model_metadata.json").read_text())
+    expected = {"model", "trained_at", "n_train", "features", "target", "lightgbm_params"}
+    assert expected | {"cv", "test", "data_period"} == set(metadata)

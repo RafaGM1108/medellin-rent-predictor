@@ -1,6 +1,6 @@
 [project]
 name = "medellin-rent-predictor"
-version = "0.1.0"
+version = "1.0.0"
 description = "Predicting and explaining monthly apartment rents in Medellín, Colombia."
 readme = "README.md"
 license = "MIT"

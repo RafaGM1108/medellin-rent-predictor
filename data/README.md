@@ -26,7 +26,7 @@ before it, by code in `src/`, so any layer can be rebuilt from `01_raw`.
 
 | Source | Used for | License | Retrieved | Notes |
 |--------|----------|---------|-----------|-------|
-| [Properati Colombia](https://www.kaggle.com/datasets/lauramartinezortiz/colombian-properties) (Kaggle mirror of Properati Data) | Listings (`operation = Alquiler`, Medellín) | Unknown on Kaggle; original license being verified | TODO | Downloaded manually from Kaggle; not committed |
+| [Properati Colombia](https://www.kaggle.com/datasets/lauramartinezortiz/colombian-properties) (Kaggle mirror of Properati Data) | Listings (`operation = Alquiler`, Medellín) | Unknown on Kaggle; original license being verified | Manual download; checksum and date in `listings.source.json` (`make listings`) | `co_properties.csv`, not committed |
 | [Límite Catastral de Comunas y Corregimientos](https://www.medellin.gov.co/geomedellin/datosAbiertos/1043) | Comuna boundaries (21 polygons) | CC BY-SA 4.0 + "no puede ser comercializada o transferida" | `make geo` (date in `comunas.source.json`) | EPSG:9377, reprojected to EPSG:4326 on load; not committed |
 | [Límite Catastral de Barrios y Veredas](https://www.medellin.gov.co/geomedellin/datosAbiertos/1044) | Barrio boundaries + barrio → comuna (349 polygons) | CC BY-SA 4.0 + "no puede ser comercializada o transferida" | `make geo` (date in `barrios.source.json`) | EPSG:9377, reprojected to EPSG:4326 on load; not committed |
 | [Estrato Socioeconómico](https://www.medellin.gov.co/geomedellin/datosAbiertos/396) | Estrato by location | CC BY-SA 4.0 + "no puede ser comercializada o transferida" | TODO | Not committed; downloaded by code |
@@ -76,6 +76,21 @@ permission. Phase 1 therefore builds a **loader for a public dataset** (issue #8
 - **Geo layers:** used for this public, non-commercial portfolio project. The files are
   never redistributed: they are downloaded by code and git-ignored; outputs credit the
   Alcaldía de Medellín.
+
+### Properati file profile (measured 2026-10-08 with `make listings`)
+
+- `co_properties.csv`: 617,694,986 bytes, exactly 1,000,000 rows, 25 columns; listings
+  published between 2020-07-26 and 2021-08-19.
+- Filter `l3 = Medellín`, `operation_type = Arriendo`, `property_type = Apartamento`,
+  `currency = COP`: **102,169 listings**.
+- About 74% of those repeat the same title, description and price (re-published ads), so
+  roughly 26,000 are distinct.
+- Structured fields are sparse: coordinates 29% present, `l4` (barrio) 30%, bedrooms 16%,
+  surface 1-2%. The listing text mentions rooms in 68%, bathrooms in 62%, parking in 56%,
+  area (m²) in 23%, estrato in 2.5%.
+- Mobile numbers and emails appear in about 1% of texts and are redacted on load. The text
+  also contains agent names, so `title` and `description` stay in git-ignored layers and are
+  dropped once features are extracted (#12).
 
 ### Open points
 
